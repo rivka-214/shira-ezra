@@ -3,6 +3,9 @@ export const site = {
   phoneDisplay: '054.844.5344',
   phoneHref: 'tel:0548445344',
   email: 'Sh0548445344@gmail.com',
+  contactTitle: 'יש לכם רעיון? בואו ניצור אותו יחד.',
+  contactLead:
+    'יש לכם אירוע, עסק או סיפור שאתם רוצים לספר?\nאשמח לשמוע מכם אפשר להשאיר פרטים כאן, או פשוט ליצור איתי קשר ישירות:',
   logoSrc: '/brand/logo.png',
   showreelYoutubeId: 'sv9sXoJ1pp8',
 } as const

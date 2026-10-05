@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
 import { ProcessSteps } from '../components/process/ProcessSteps'
@@ -5,23 +6,35 @@ import { Recommendations } from '../components/recommendations/Recommendations'
 import { Cta } from '../components/ui/Cta'
 import { businessContent as c } from '../data/business'
 
+const heroHighlights = ['להבליט', 'אמון']
+
+function highlightHero(line: string): ReactNode[] {
+  const pattern = new RegExp(`(${heroHighlights.join('|')})`, 'g')
+  return line.split(pattern).map((part, index) =>
+    heroHighlights.includes(part) ? (
+      <span className="biz-em" key={`${part}-${index}`}>
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  )
+}
+
 export function BusinessPage() {
   return (
     <PageShell>
-      <section className="page-hero">
-        <div className="wrap">
-          <h1>{c.hero.title}</h1>
-          <p className="lead">{c.hero.lead}</p>
-        </div>
-      </section>
-
-      <section className="blk">
-        <div className="wrap why-grid">
-          {c.value.map((item) => (
-            <div key={item.title}>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </div>
+      <section className="page-hero biz-hero">
+        <div className="wrap biz-hero-inner">
+          <h1 className="biz-hero-title">{c.hero.title}</h1>
+          {c.hero.lines.map((line, index) => (
+            <p
+              className="lead biz-hero-line"
+              key={line.slice(0, 24)}
+              style={{ animationDelay: `${0.42 + index * 0.28}s` }}
+            >
+              {highlightHero(line)}
+            </p>
           ))}
         </div>
       </section>

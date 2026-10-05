@@ -1,5 +1,5 @@
 export const clients = {
-  title: 'לקוחות שעבדנו איתם',
+  title: 'האנשים והמותגים שבחרו בנו',
   logos: [
     { name: 'client-01', src: '/logos/clients/client-01.png' },
     { name: 'client-02', src: '/logos/clients/client-02.png' },

@@ -34,14 +34,14 @@ export function ContactForm() {
 
   return (
     <form className="contact-form" onSubmit={onSubmit} noValidate>
-      <h2>יצירת קשר</h2>
+      <h2>מתחילים מכאן</h2>
       <label className="hp" aria-hidden="true">
         חברה
         <input name="company" tabIndex={-1} autoComplete="off" />
       </label>
       <div className="form-row">
         <label>
-          שם
+          השם שלכם
           <input name="name" required autoComplete="name" />
         </label>
         <label>
@@ -50,11 +50,11 @@ export function ContactForm() {
         </label>
       </div>
       <label>
-        אימייל
+        כתובת אימייל
         <input name="email" type="email" autoComplete="email" />
       </label>
       <label>
-        הודעה
+        ספרו לי קצת על מה שאתם מחפשים...
         <textarea name="message" rows={1} />
       </label>
       <button className="btn btn-lime form-submit" type="submit" disabled={status === 'sending'}>

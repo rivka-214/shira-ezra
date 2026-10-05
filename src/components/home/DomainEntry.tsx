@@ -10,8 +10,13 @@ const homePills = [
 export function DomainEntry() {
   return (
     <div className="domain-grid">
-      {homePills.map((d) => (
-        <Link className="domain-card" to={d.path} key={d.label}>
+      {homePills.map((d, index) => (
+        <Link
+          className="domain-card home-rise"
+          to={d.path}
+          key={d.label}
+          style={{ animationDelay: `${0.34 + index * 0.12}s` }}
+        >
           {d.label}
         </Link>
       ))}

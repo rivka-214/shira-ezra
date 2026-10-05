@@ -1,41 +1,41 @@
+import { useId } from 'react'
+
 type Props = { variant?: 'top' | 'bottom' | 'footer' | 'accent' }
 
+const BELOW = [
+  'M-40 112 C 220 128, 500 92, 780 76 C 1060 60, 1260 84, 1500 92',
+  'M-40 128 C 200 142, 480 108, 760 92 C 1040 76, 1250 98, 1500 108',
+]
+
+const ABOVE = [
+  'M-40 70 C 240 86, 520 58, 800 42 C 1080 26, 1280 44, 1500 50',
+  'M-40 86 C 230 100, 510 72, 790 56 C 1070 40, 1270 60, 1500 68',
+]
+
+const RIBBON = 'M-40 98 C 220 114, 500 76, 780 60 C 1060 44, 1260 70, 1500 78'
+
 export function WaveDecor({ variant = 'bottom' }: Props) {
-  const id = `wg-${variant}`
-  const showBand = variant !== 'top'
+  const id = `wg-${useId().replace(/:/g, '')}`
+
   return (
     <div className={`waves waves-${variant}`} aria-hidden="true">
-      <svg viewBox="0 0 1440 220" preserveAspectRatio="none">
+      <svg viewBox="0 0 1440 160">
         <defs>
-          <linearGradient id={id} x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#6ee943" />
-            <stop offset="35%" stopColor="#63d17a" />
-            <stop offset="62%" stopColor="#6762eb" />
-            <stop offset="100%" stopColor="#301ab3" />
+          <linearGradient id={id} x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stopColor="#7af04a" />
+            <stop offset="38%" stopColor="#5dce78" />
+            <stop offset="58%" stopColor="#5b63e4" />
+            <stop offset="82%" stopColor="#3418b8" />
+            <stop offset="100%" stopColor="#2c0898" />
           </linearGradient>
         </defs>
-        <path
-          className="line thin"
-          d="M-20 40 C 180 10, 320 70, 520 40 S 860 10, 1100 50 S 1380 20, 1460 40"
-          fill="none"
-        />
-        <path
-          className="line thin"
-          d="M-20 70 C 200 40, 360 100, 560 70 S 900 40, 1140 80 S 1400 50, 1460 70"
-          fill="none"
-        />
-        <path
-          className="line thin"
-          d="M-20 100 C 220 80, 400 130, 620 95 S 980 70, 1220 110 S 1420 90, 1460 100"
-          fill="none"
-        />
-        {showBand ? (
-          <path
-            fill={`url(#${id})`}
-            d="M-40 150 C 220 90, 480 190, 760 130 S 1180 80, 1480 150 L 1480 230 L -40 230 Z"
-            opacity="0.9"
-          />
-        ) : null}
+        {BELOW.map((d) => (
+          <path key={d} className="line thin" d={d} />
+        ))}
+        <path className="line ribbon" d={RIBBON} stroke={`url(#${id})`} strokeWidth={32} />
+        {ABOVE.map((d) => (
+          <path key={d} className="line thin" d={d} />
+        ))}
       </svg>
     </div>
   )
