@@ -1,6 +1,6 @@
 import { useId } from 'react'
 
-type Props = { variant?: 'top' | 'bottom' | 'footer' | 'accent' }
+type Props = { variant?: 'top' | 'bottom' | 'footer' | 'accent' | 'hero' }
 
 const BELOW = [
   'M-40 112 C 220 128, 500 92, 780 76 C 1060 60, 1260 84, 1500 92',
@@ -14,12 +14,18 @@ const ABOVE = [
 
 const RIBBON = 'M-40 98 C 220 114, 500 76, 780 60 C 1060 44, 1260 70, 1500 78'
 
+const FULL_BLEED_VARIANTS = new Set<NonNullable<Props['variant']>>(['hero', 'footer'])
+
 export function WaveDecor({ variant = 'bottom' }: Props) {
   const id = `wg-${useId().replace(/:/g, '')}`
+  const fullBleed = FULL_BLEED_VARIANTS.has(variant)
 
   return (
     <div className={`waves waves-${variant}`} aria-hidden="true">
-      <svg viewBox="0 0 1440 160">
+      <svg
+        viewBox="0 0 1440 160"
+        preserveAspectRatio={fullBleed ? 'none' : undefined}
+      >
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="1440" y2="0" gradientUnits="userSpaceOnUse">
             <stop offset="0%" stopColor="#7af04a" />

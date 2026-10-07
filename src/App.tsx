@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { PageTransition } from './components/motion/PageTransition'
 import { BusinessPage } from './pages/BusinessPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
@@ -25,12 +26,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <RouteWipe />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/video" element={<VideoPage />} />
-        <Route path="/business" element={<BusinessPage />} />
-        <Route path="/events" element={<EventsPage />} />
-      </Routes>
+      <PageTransition>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/video" element={<VideoPage />} />
+          <Route path="/business" element={<BusinessPage />} />
+          <Route path="/events" element={<EventsPage />} />
+        </Routes>
+      </PageTransition>
     </BrowserRouter>
   )
 }

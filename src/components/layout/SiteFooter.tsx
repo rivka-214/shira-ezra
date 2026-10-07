@@ -3,6 +3,7 @@ import { site } from '../../data/site'
 import { clients } from '../../data/clients'
 import { ClientLogos } from '../clients/ClientLogos'
 import { ContactForm } from '../contact/ContactForm'
+import { useInView } from '../../motion/useInView'
 import { WaveDecor } from './WaveDecor'
 
 function emailLabel(email: string) {
@@ -13,6 +14,7 @@ function emailLabel(email: string) {
 export function SiteFooter() {
   const titleRef = useRef<HTMLHeadingElement>(null)
   const [titleIn, setTitleIn] = useState(false)
+  const contactMotion = useInView<HTMLDivElement>({ threshold: 0.15 })
 
   useEffect(() => {
     const title = titleRef.current
@@ -54,17 +56,15 @@ export function SiteFooter() {
       <div className="footer-contact">
         <WaveDecor variant="footer" />
         <div className="wrap footer-inner">
-          <div className="footer-grid">
+          <div
+            className={
+              contactMotion.visible ? 'footer-grid footer-reveal is-visible' : 'footer-grid footer-reveal'
+            }
+            ref={contactMotion.ref}
+          >
             <div className="cinfo">
               <h2>{site.contactTitle}</h2>
-              <p className="cinfo-lead">
-                {site.contactLead.split('\n').map((line, index) => (
-                  <span key={line}>
-                    {index > 0 ? <br /> : null}
-                    {line}
-                  </span>
-                ))}
-              </p>
+              <p className="cinfo-lead">{site.contactLead}</p>
               <a className="cinfo-item" href={site.phoneHref}>
                 <span className="cinfo-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

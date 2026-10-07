@@ -389,6 +389,23 @@ textarea:focus-visible {
   bottom: 18px;
 }
 
+.waves-hero {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  flex: none;
+  width: 100%;
+  margin-top: clamp(28px, 4vw, 48px);
+  margin-bottom: clamp(-20px, -2.5vw, -10px);
+  overflow: visible;
+}
+
+.waves-hero svg,
+.waves-footer svg {
+  width: 100%;
+  height: clamp(72px, 10vw, 112px);
+}
+
 .waves .line.thin {
   stroke: #3c2cc8;
   stroke-width: 1.5px;
@@ -448,7 +465,7 @@ textarea:focus-visible {
 }
 
 .waves svg {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .page-hero-shell {
@@ -459,6 +476,11 @@ textarea:focus-visible {
 .page-hero-panel {
   border-radius: 22px;
   overflow: hidden;
+}
+
+.page-hero-panel.blue-wave-panel {
+  overflow: visible;
+  border-radius: 22px 22px 0 0;
 }
 
 .page-hero .sub,
@@ -476,9 +498,12 @@ textarea:focus-visible {
 }
 
 .biz-hero-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   background: #2a1878;
   color: var(--white);
-  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px);
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 4vw, 40px) 0;
 }
 
 .events-hero-panel {
@@ -656,6 +681,26 @@ textarea:focus-visible {
   padding-inline-start: 16px;
 }
 
+.hero-wave-bridge {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  background: transparent;
+  line-height: 0;
+}
+
+.hero-wave-bridge .waves,
+.hero-wave-bridge .waves-hero {
+  width: 100%;
+  overflow: visible;
+}
+
+.hero-wave-bridge .waves-hero {
+  margin-top: clamp(20px, 3vw, 36px);
+  margin-bottom: clamp(-28px, -3.5vw, -14px);
+}
+
 .video-hero-panel {
   display: flex;
   flex-direction: column;
@@ -666,15 +711,9 @@ textarea:focus-visible {
   padding: clamp(48px, 7vw, 72px) clamp(20px, 4vw, 32px) 0;
 }
 
-.video-hero-divider {
-  margin-top: clamp(28px, 4vw, 48px);
-  line-height: 0;
-}
-
-.video-hero-divider svg {
-  display: block;
-  width: 100%;
-  height: 72px;
+.blue-wave-panel {
+  position: relative;
+  padding-bottom: 0;
 }
 
 .video-hero-inner {
@@ -791,7 +830,7 @@ textarea:focus-visible {
 }
 
 .find-here {
-  padding-top: 28px;
+  padding-top: clamp(36px, 5vw, 52px);
 }
 
 .find-here .find-rise,
@@ -809,12 +848,11 @@ textarea:focus-visible {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 22px 18px 26px;
-  border-radius: 16px;
-  background: var(--white);
-  border: 1px solid color-mix(in srgb, var(--blue) 10%, transparent);
-  box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 7%, transparent);
-  border-inline-start: 1px solid color-mix(in srgb, var(--blue) 10%, transparent);
+  padding: 8px 12px 16px;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
 }
 
 .find-here .find-card-copy {
@@ -832,62 +870,60 @@ textarea:focus-visible {
 }
 
 .find-icon {
-  width: 92px;
-  height: 92px;
-  margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 12px;
   flex: none;
 }
 
 .find-here .find-icon-path {
   fill: none;
   stroke: var(--ink);
-  stroke-width: 3.6;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
 
+.find-here .find-icon-aperture-ring {
+  stroke-width: 2.75;
+}
+
+.find-here .find-icon--film .find-icon-film-outer {
+  stroke-width: 4.25;
+}
+
+.find-here .find-icon--film .find-icon-film-frames,
+.find-here .find-icon--film .find-icon-detail {
+  stroke-width: 3.25;
+}
+
+.find-here .find-icon--camera .find-icon-camera-body,
+.find-here .find-icon--camera .find-icon-camera-lens {
+  stroke-width: 4.25;
+}
+
+.find-here .find-icon--camera .find-icon-detail {
+  stroke-width: 3.25;
+}
+
+.find-here .find-icon--photo .find-icon-photo-outer {
+  stroke-width: 4.25;
+}
+
+.find-here .find-icon--photo .find-icon-detail {
+  stroke-width: 3.25;
+}
+
 .find-here.is-in .find-icon.is-active .find-icon-path {
   animation: find-icon-draw 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.find-here.is-in .find-icon.is-active {
-  animation: find-icon-float 4.8s ease-in-out infinite;
-}
-
-.find-here.is-in .find-aperture-spin {
-  transform-origin: 55px 55px;
-  animation: find-aperture-spin 14s linear infinite;
 }
 
 @keyframes find-icon-draw {
   to {
     stroke-dashoffset: 0;
   }
-}
-
-@keyframes find-icon-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  40% {
-    transform: translate3d(-3px, -8px, 0) rotate(-2deg);
-  }
-  75% {
-    transform: translate3d(4px, -4px, 0) rotate(2deg);
-  }
-}
-
-@keyframes find-aperture-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.find-here.is-in .find-card {
-  animation: find-card-drift 5.5s ease-in-out infinite;
 }
 
 @keyframes video-rise {
@@ -898,19 +934,6 @@ textarea:focus-visible {
   to {
     opacity: 1;
     transform: none;
-  }
-}
-
-@keyframes find-card-drift {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  35% {
-    transform: translate3d(-4px, -7px, 0);
-  }
-  70% {
-    transform: translate3d(5px, -4px, 0);
   }
 }
 
@@ -974,11 +997,20 @@ textarea:focus-visible {
 }
 
 .video-tile button,
-.video-tile iframe {
+.video-tile iframe,
+.video-tile > video {
   display: block;
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.video-tile button video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
 }
 
 .video-tile button {
@@ -1089,6 +1121,45 @@ textarea:focus-visible {
   padding-bottom: 72px;
 }
 
+.rec-carousel {
+  margin-top: 8px;
+  padding-top: 56px;
+  padding-bottom: 108px;
+  overflow: visible;
+}
+
+.rec-grid-page {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+  overflow: visible;
+}
+
+.rec-carousel-dots {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 96px;
+}
+
+.rec-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--white) 28%, transparent);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.rec-carousel-dot.is-active {
+  background: var(--lime);
+  transform: scale(1.15);
+}
+
+.reviews-close .rec-carousel-dot.is-active {
+  background: var(--lime);
+}
+
 .rec-card {
   --frame: var(--blue);
   position: relative;
@@ -1097,7 +1168,8 @@ textarea:focus-visible {
   background: transparent;
   border: 1.75px solid var(--frame);
   border-radius: 18px;
-  padding: 48px 18px 52px;
+  padding: 48px 18px 56px;
+  overflow: visible;
 }
 
 .rec-q {
@@ -1131,18 +1203,22 @@ textarea:focus-visible {
 .rec-by {
   position: absolute;
   left: 50%;
-  top: 100%;
-  z-index: 2;
+  bottom: 0;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: max-content;
-  max-width: 100%;
-  transform: translate(-50%, -43px);
+  max-width: calc(100% + 24px);
+  transform: translate(-50%, 50%);
+  pointer-events: none;
 }
 
-.rec-by img {
+.rec-by img,
+.rec-by-placeholder {
+  position: relative;
+  z-index: 5;
   width: 86px;
   height: 86px;
   padding: 8px;
@@ -1150,11 +1226,20 @@ textarea:focus-visible {
   border-radius: 50%;
   background: var(--white);
   object-fit: contain;
+  box-sizing: border-box;
+}
+
+.rec-by-placeholder {
+  display: block;
+  visibility: hidden;
 }
 
 .rec-by strong {
+  position: relative;
+  z-index: 4;
   font-weight: 600;
   color: var(--ink);
+  pointer-events: auto;
 }
 
 .cats,
@@ -1302,7 +1387,8 @@ textarea:focus-visible {
   position: relative;
   background: var(--white);
   padding: 0;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   border-top: 1px solid color-mix(in srgb, var(--blue) 12%, transparent);
   scroll-margin-top: 80px;
 }
@@ -1310,7 +1396,7 @@ textarea:focus-visible {
 .logo-band {
   background: #2a1878;
   color: var(--white);
-  padding: 48px 0 36px;
+  padding: 48px 0 clamp(28px, 4vw, 44px);
   display: block;
 }
 
@@ -1399,7 +1485,15 @@ textarea:focus-visible {
 .footer-contact {
   position: relative;
   padding: 48px 0 230px;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.footer-contact > .waves-footer {
+  width: 100vw;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  overflow: visible;
 }
 
 .footer-contact .wrap {
@@ -1409,14 +1503,17 @@ textarea:focus-visible {
 .cinfo h2 {
   font-size: clamp(1.7rem, 2.35vw, 2.2rem);
   font-weight: 700;
-  margin: 0 0 0.4em;
+  margin: 0;
   max-width: 22em;
+  white-space: pre-line;
+  line-height: 1.35;
 }
 
 .cinfo-lead {
   margin: 0 0 1.35rem;
   max-width: 32em;
   line-height: 1.55;
+  white-space: pre-line;
 }
 
 .cinfo-item {
@@ -1534,10 +1631,6 @@ textarea:focus-visible {
   margin-top: 10px;
 }
 
-.waves-footer svg {
-  height: auto;
-}
-
 .logo-marquee {
   overflow: hidden;
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
@@ -1628,6 +1721,7 @@ textarea:focus-visible {
   .domain-grid,
   .video-grid,
   .rec-grid,
+  .rec-grid-page,
   .find-here .cats {
     grid-template-columns: 1fr;
   }
@@ -1649,10 +1743,13 @@ textarea:focus-visible {
     padding: 36px 0 16px;
   }
 
-  .rec-grid {
+  .rec-grid,
+  .rec-grid-page {
     gap: 112px;
-    padding-top: 52px;
-    padding-bottom: 64px;
+  }
+
+  .rec-carousel {
+    padding-bottom: 88px;
   }
 
   .rec-card {
@@ -1709,12 +1806,9 @@ textarea:focus-visible {
     opacity: 1;
     animation: none;
   }
-  .find-here.is-in .find-card,
-  .find-here.is-in .find-icon.is-active,
-  .find-here.is-in .find-aperture-spin {
+  .find-here.is-in .find-icon.is-active .find-icon-path,
+  .find-here .find-icon-path {
     animation: none;
-  }
-  .find-here.is-in .find-icon-path {
     stroke-dashoffset: 0;
   }
   .biz-why-section .find-rise,

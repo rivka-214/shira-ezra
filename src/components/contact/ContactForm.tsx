@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react'
-import { site } from '../../data/site'
 
-type Status = 'idle' | 'sending' | 'success' | 'error'
+type Status = 'idle' | 'sending' | 'success' | 'error' | 'send-error'
+
+const WEB3FORMS_URL = 'https://api.web3forms.com/submit'
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')
@@ -24,12 +25,35 @@ export function ContactForm() {
       setStatus('error')
       return
     }
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
+    if (!accessKey) {
+      setStatus('send-error')
+      return
+    }
     setStatus('sending')
-    const body = `שם: ${name}\nטלפון: ${phone}\nאימייל: ${email}\n\n${message}`
-    const href = `mailto:${site.email}?subject=${encodeURIComponent('פנייה מהאתר')}&body=${encodeURIComponent(body)}`
-    window.location.href = href
-    setStatus('success')
-    form.reset()
+    try {
+      const res = await fetch(WEB3FORMS_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: accessKey,
+          subject: 'פנייה מהאתר',
+          name,
+          phone,
+          email: email || undefined,
+          message: message || '(ללא הודעה נוספת)',
+        }),
+      })
+      const json = (await res.json()) as { success?: boolean }
+      if (!res.ok || !json.success) {
+        setStatus('send-error')
+        return
+      }
+      setStatus('success')
+      form.reset()
+    } catch {
+      setStatus('send-error')
+    }
   }
 
   return (
@@ -62,12 +86,17 @@ export function ContactForm() {
       </button>
       {status === 'success' ? (
         <p className="form-ok" role="status">
-          נפתח מייל מוכן לשליחה אל שירה.
+          קיבלנו את הפנייה — שירה תחזור אליכם בהקדם.
         </p>
       ) : null}
       {status === 'error' ? (
         <p className="form-err" role="alert">
           נא למלא שם וטלפון.
+        </p>
+      ) : null}
+      {status === 'send-error' ? (
+        <p className="form-err" role="alert">
+          לא הצלחנו לשלוח. נסו שוב או צרו קשר בטלפון / מייל בתחתית העמוד.
         </p>
       ) : null}
     </form>

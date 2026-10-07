@@ -1,5 +1,7 @@
+import { useEffect, useRef, useState } from 'react'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
+import { RevealHeading } from '../components/motion/RevealHeading'
 import { EventPackages } from '../components/packages/EventPackages'
 import { ProcessSteps } from '../components/process/ProcessSteps'
 import { Recommendations } from '../components/recommendations/Recommendations'
@@ -7,15 +9,48 @@ import { Cta } from '../components/ui/Cta'
 import { eventsContent as c } from '../data/events'
 
 export function EventsPage() {
+  const heroRef = useRef<HTMLDivElement>(null)
+  const [heroIn, setHeroIn] = useState(false)
+
+  useEffect(() => {
+    const panel = heroRef.current
+    if (!panel) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setHeroIn(true)
+      return
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return
+        setHeroIn(true)
+        observer.disconnect()
+      },
+      { threshold: 0.25 },
+    )
+    observer.observe(panel)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <PageShell>
       <section className="page-hero-shell events-hero-shell">
         <div className="wrap events-section">
-          <div className="page-hero-panel events-hero-panel">
-            <h1>{c.hero.title}</h1>
+          <div
+            className={
+              heroIn
+                ? 'page-hero-panel events-hero-panel events-hero-cinematic is-in'
+                : 'page-hero-panel events-hero-panel events-hero-cinematic'
+            }
+            ref={heroRef}
+          >
+            <RevealHeading as="h1">{c.hero.title}</RevealHeading>
             <p className="sub">{c.hero.subtitle}</p>
-            {c.hero.lead.map((p) => (
-              <p className="lead events-hero-lead" key={p.slice(0, 24)}>
+            {c.hero.lead.map((p, index) => (
+              <p
+                className="lead events-hero-lead"
+                key={p.slice(0, 24)}
+                style={{ ['--lead-delay' as string]: `${0.2 + index * 0.08}s` }}
+              >
                 {p}
               </p>
             ))}
@@ -25,7 +60,7 @@ export function EventsPage() {
 
       <section className="blk events-section" id="works">
         <div className="wrap">
-          <MediaGallery title={c.worksTitle} />
+          <MediaGallery title={c.worksTitle} scrollGallery />
         </div>
       </section>
 
@@ -36,6 +71,7 @@ export function EventsPage() {
             intro={c.process.intro}
             steps={c.process.steps}
             variant="column"
+            eventsStyle
           />
         </div>
       </section>

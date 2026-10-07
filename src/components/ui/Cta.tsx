@@ -8,8 +8,8 @@ type Props = {
 
 export function Cta({ href = '#contact', children, onClick }: Props) {
   return (
-    <a className="btn" href={href} onClick={onClick}>
-      {children}
+    <a className="btn btn-motion" href={href} onClick={onClick}>
+      <span className="btn-label">{children}</span>
     </a>
   )
 }

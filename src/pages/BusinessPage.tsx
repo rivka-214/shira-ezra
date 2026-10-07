@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
-import { useEffect, useRef, useState } from 'react'
+import { useInView } from '../motion/useInView'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
+import { WaveDecor } from '../components/layout/WaveDecor'
 import { ProcessSteps } from '../components/process/ProcessSteps'
 import { Recommendations } from '../components/recommendations/Recommendations'
 import { Cta } from '../components/ui/Cta'
@@ -22,41 +23,15 @@ function highlightHero(line: string): ReactNode[] {
   )
 }
 
-function useReveal(threshold = 0.2) {
-  const ref = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setVisible(true)
-      return
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return
-        setVisible(true)
-        observer.disconnect()
-      },
-      { threshold },
-    )
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [threshold])
-
-  return { ref, visible }
-}
-
 export function BusinessPage() {
-  const whyNow = useReveal(0.18)
-  const envelope = useReveal(0.16)
+  const whyNow = useInView<HTMLElement>({ threshold: 0.18 })
+  const envelope = useInView<HTMLElement>({ threshold: 0.16 })
 
   return (
     <PageShell>
       <section className="page-hero-shell biz-hero-shell">
         <div className="wrap">
-          <div className="page-hero-panel biz-hero-panel">
+          <div className="page-hero-panel biz-hero-panel blue-wave-panel">
             <div className="biz-hero-inner">
               <h1 className="biz-hero-title">{c.hero.title}</h1>
               {c.hero.lines.map((line, index) => (
@@ -69,6 +44,7 @@ export function BusinessPage() {
                 </p>
               ))}
             </div>
+            <WaveDecor variant="hero" />
           </div>
         </div>
       </section>
@@ -125,7 +101,7 @@ export function BusinessPage() {
 
       <section className="blk" id="works">
         <div className="wrap">
-          <MediaGallery title={c.worksTitle} />
+          <MediaGallery title={c.worksTitle} videos={c.works} previewCount={c.works.length} />
         </div>
       </section>
 

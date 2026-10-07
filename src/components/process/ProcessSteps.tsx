@@ -1,4 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import { RevealHeading } from '../motion/RevealHeading'
+import { FadeUp } from '../motion/FadeUp'
+import { useInView } from '../../motion/useInView'
 
 type Step = { title: string; text: string }
 
@@ -7,13 +10,18 @@ type Props = {
   intro?: string
   steps: Step[]
   variant?: 'column' | 'row'
+  /** Larger staged steps (events page) */
+  eventsStyle?: boolean
 }
 
-export function ProcessSteps({ title, intro, steps, variant = 'column' }: Props) {
+export function ProcessSteps({ title, intro, steps, variant = 'column', eventsStyle = false }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
-  const showRail = variant === 'column' && steps.length > 1
+  const [activeIndex, setActiveIndex] = useState(0)
+  const { ref: blockRef, visible: blockIn } = useInView<HTMLDivElement>({ threshold: 0.12 })
+  const showRail = variant === 'column' && steps.length > 1 && !eventsStyle
+  const timeline = showRail
 
   useLayoutEffect(() => {
     const wrap = wrapRef.current
@@ -40,6 +48,7 @@ export function ProcessSteps({ title, intro, steps, variant = 'column' }: Props)
     if (reduce) {
       place()
       setProgress(1)
+      setActiveIndex(steps.length - 1)
       window.addEventListener('resize', place)
       return () => window.removeEventListener('resize', place)
     }
@@ -55,6 +64,14 @@ export function ProcessSteps({ title, intro, steps, variant = 'column' }: Props)
       const distance = Math.max(rect.height + start - end, 1)
       const next = Math.min(1, Math.max(0, (start - rect.top) / distance))
       setProgress((prev) => (Math.abs(prev - next) < 0.008 ? prev : next))
+
+      const items = wrap.querySelectorAll<HTMLElement>('.steps li')
+      let active = 0
+      items.forEach((li, i) => {
+        const r = li.getBoundingClientRect()
+        if (r.top < vh * 0.62) active = i
+      })
+      setActiveIndex(active)
     }
     const onScroll = () => {
       if (frame) return
@@ -71,10 +88,24 @@ export function ProcessSteps({ title, intro, steps, variant = 'column' }: Props)
     }
   }, [showRail, steps.length])
 
+  const processClass = [
+    'process',
+    `process-${variant}`,
+    timeline ? 'process-timeline' : '',
+    eventsStyle ? 'process-events' : '',
+    blockIn ? 'is-in' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={`process process-${variant}`}>
-      <h2>{title}</h2>
-      {intro ? <p className="lead">{intro}</p> : null}
+    <div className={processClass} ref={blockRef}>
+      <RevealHeading>{title}</RevealHeading>
+      {intro ? (
+        <FadeUp delay={0.06}>
+          <p className="lead">{intro}</p>
+        </FadeUp>
+      ) : null}
       <div className="steps-wrap" ref={wrapRef}>
         {showRail ? (
           <div className="steps-rail" ref={railRef} aria-hidden="true">
@@ -83,8 +114,22 @@ export function ProcessSteps({ title, intro, steps, variant = 'column' }: Props)
         ) : null}
         <ol className="steps">
           {steps.map((s, i) => (
-            <li key={s.title}>
-              <span className="num">{i + 1}</span>
+            <li
+              key={s.title}
+              className={
+                timeline
+                  ? i < activeIndex
+                    ? 'is-done'
+                    : i === activeIndex
+                      ? 'is-active'
+                      : ''
+                  : ''
+              }
+              style={eventsStyle ? { ['--step-delay' as string]: `${0.12 + i * 0.18}s` } : undefined}
+            >
+              <span className="num">
+                {eventsStyle ? String(i + 1).padStart(2, '0') : i + 1}
+              </span>
               <div>
                 <h3>{s.title}</h3>
                 <p>{s.text}</p>

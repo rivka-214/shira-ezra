@@ -15,9 +15,21 @@ export function DomainEntry() {
           className="domain-card home-rise"
           to={d.path}
           key={d.label}
-          style={{ animationDelay: `${0.34 + index * 0.12}s` }}
+          style={{ animationDelay: `${0.42 + index * 0.14}s` }}
         >
-          {d.label}
+          <span className="domain-card-label">
+            {d.label}
+            <svg className="domain-card-arrow" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                d="M3 8h8M9 5l3 3-3 3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
         </Link>
       ))}
     </div>
