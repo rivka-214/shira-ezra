@@ -8,11 +8,12 @@ type Pkg = {
 type Props = {
   title: string
   items: Pkg[]
+  centered?: boolean
 }
 
-export function EventPackages({ title, items }: Props) {
+export function EventPackages({ title, items, centered = false }: Props) {
   return (
-    <div>
+    <div className={centered ? 'pkg-block pkg-block-center' : 'pkg-block'}>
       <h2>{title}</h2>
       <div className="pkg-grid">
         {items.map((pkg) => {

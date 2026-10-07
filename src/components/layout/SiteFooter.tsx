@@ -71,7 +71,10 @@ export function SiteFooter() {
                     <path d="M7 3.5h3.2l1.2 3.1-1.8 1.1a12 12 0 0 0 5.7 5.7l1.1-1.8 3.1 1.2V16a2 2 0 0 1-2.2 2A15.5 15.5 0 0 1 5 7.7 2 2 0 0 1 7 3.5Z" />
                   </svg>
                 </span>
-                <span>{site.phoneDisplay}</span>
+                <span className="cinfo-text">
+                  <span className="cinfo-label">{site.contactPhoneLabel}</span>
+                  <span>{site.phoneDisplay}</span>
+                </span>
               </a>
               <a className="cinfo-item" href={`mailto:${site.email}`}>
                 <span className="cinfo-icon" aria-hidden="true">
@@ -80,7 +83,10 @@ export function SiteFooter() {
                     <path d="m4.5 7 7.5 6 7.5-6" />
                   </svg>
                 </span>
-                <span>{emailLabel(site.email)}</span>
+                <span className="cinfo-text">
+                  <span className="cinfo-label">{site.contactEmailLabel}</span>
+                  <span>{emailLabel(site.email)}</span>
+                </span>
               </a>
             </div>
             <ContactForm />

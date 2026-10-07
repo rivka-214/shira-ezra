@@ -8,8 +8,7 @@ export const businessContent = {
     ],
   },
   whyNow: {
-    title: 'למה העסק שלך חייב סרטון תדמית / סטטוס עכשיו?',
-    layout: 'row-marquee' as const,
+    title: 'למה העסק שלך צריך סרטון תדמית עכשיו.',
     items: [
       {
         title: 'מביא תוצאות בשטח',
