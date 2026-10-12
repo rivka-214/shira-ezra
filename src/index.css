@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Birzia';
+  src: url('/Birzia-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --ink: #060215;
   --blue: #301ab3;
@@ -7,6 +15,7 @@
   --soft: #f6f5fb;
   --grad: linear-gradient(90deg, #6ee943 0%, #63d17a 18%, #6762eb 55%, #301ab3 78%, #3e099e 100%);
   --sans: 'Heebo', 'Segoe UI', Arial, sans-serif;
+  --heading: 'Birzia', 'Heebo', sans-serif;
 }
 
 *,
@@ -48,14 +57,14 @@ a {
 h1,
 h2,
 h3 {
-  font-weight: 400;
+  font-family: var(--heading);
+  font-weight: 900;
   line-height: 1.25;
   margin: 0 0 0.6em;
 }
 
 h1 {
   font-size: clamp(1.9rem, 4.6vw, 3.4rem);
-  font-weight: 300;
 }
 
 h2 {
@@ -64,7 +73,6 @@ h2 {
 
 h3 {
   font-size: 1.05rem;
-  font-weight: 600;
 }
 
 p {
@@ -625,7 +633,7 @@ textarea:focus-visible {
   margin: 0 0 0.85rem;
   max-width: 100%;
   color: var(--lime);
-  font-weight: 700;
+  font-weight: 900;
   font-size: clamp(1.15rem, 5.05cqi, 2.9rem);
   line-height: 1.15;
   white-space: nowrap;
@@ -746,7 +754,7 @@ textarea:focus-visible {
 
 .biz-why-front h3 {
   margin: 0;
-  font-weight: 700;
+  font-weight: 900;
   text-align: center;
   line-height: 1.35;
 }
@@ -866,7 +874,7 @@ p.lead.biz-envelope-intro {
   margin: 0;
   color: var(--lime);
   font-size: clamp(2.35rem, 5.8vw, 3.85rem);
-  font-weight: 700;
+  font-weight: 900;
   line-height: 1.15;
   animation: video-rise 0.7s ease both;
 }
@@ -1831,7 +1839,7 @@ p.lead.biz-envelope-intro {
 
 .cinfo h2 {
   font-size: clamp(1.7rem, 2.35vw, 2.2rem);
-  font-weight: 700;
+  font-weight: 900;
   margin: 0;
   max-width: 22em;
   white-space: pre-line;
