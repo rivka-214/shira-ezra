@@ -20,7 +20,7 @@ export function ProcessSteps({ title, intro, steps, variant = 'column', eventsSt
   const [progress, setProgress] = useState(0)
   const [activeIndex, setActiveIndex] = useState(0)
   const { ref: blockRef, visible: blockIn } = useInView<HTMLDivElement>({ threshold: 0.12 })
-  const showRail = variant === 'column' && steps.length > 1 && !eventsStyle
+  const showRail = variant === 'column' && steps.length > 1
   const timeline = showRail
 
   useLayoutEffect(() => {

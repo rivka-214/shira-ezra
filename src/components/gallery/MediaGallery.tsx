@@ -73,35 +73,38 @@ function VideoTile({ url, title, index }: GalleryVideo & { index: number }) {
       ref={tileRef}
       style={{ ['--tile-delay' as string]: `${index * 0.08}s` }}
     >
-      {isFile ? (
-        playing ? (
-          <video src={url} controls autoPlay playsInline title={label} />
+      <div className="video-frame">
+        {isFile ? (
+          playing ? (
+            <video src={url} controls autoPlay playsInline title={label} />
+          ) : (
+            <button type="button" onClick={() => setPlaying(true)} aria-label={label}>
+              <video src={url} preload="metadata" muted playsInline tabIndex={-1} aria-hidden />
+              <span className="video-play" aria-hidden="true" />
+            </button>
+          )
+        ) : playing ? (
+          <iframe
+            src={youtubeEmbedSrc(id, true)}
+            title={label}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
         ) : (
           <button type="button" onClick={() => setPlaying(true)} aria-label={label}>
-            <video src={url} preload="metadata" muted playsInline tabIndex={-1} aria-hidden />
+            <img
+              src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
             <span className="video-play" aria-hidden="true" />
           </button>
-        )
-      ) : playing ? (
-        <iframe
-          src={youtubeEmbedSrc(id, true)}
-          title={label}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="strict-origin-when-cross-origin"
-        />
-      ) : (
-        <button type="button" onClick={() => setPlaying(true)} aria-label={label}>
-          <img
-            src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
-            alt=""
-            loading="lazy"
-            decoding="async"
-          />
-          <span className="video-play" aria-hidden="true" />
-        </button>
-      )}
+        )}
+      </div>
+      {title ? <p className="video-caption">{title}</p> : null}
     </div>
   )
 }

@@ -60,7 +60,12 @@ export function EventsPage() {
 
       <section className="blk events-section" id="works">
         <div className="wrap">
-          <MediaGallery title={c.worksTitle} scrollGallery />
+          <MediaGallery
+            title={c.worksTitle}
+            videos={c.works}
+            previewCount={c.works.length}
+            scrollGallery
+          />
         </div>
       </section>
 

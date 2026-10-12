@@ -1,3 +1,5 @@
+import { businessRecommendationStart, sharedRecommendations } from './recommendations'
+
 export const businessContent = {
   hero: {
     title: 'רוצים להפוך מתעניינים ללקוחות סוגרים?',
@@ -26,7 +28,7 @@ export const businessContent = {
   },
   envelope: {
     intro:
-      'כשעושים סרטון, התוצאה חייבת להיות לא פחות ממושלמת. אצלי מקבלים מעטפת מלאה תחת קורת גג אחת, בלי לחפש כמה אנשי מקצוע שונים:',
+      'כשעושים סרטון, התוצאה חייבת להיות לא פחות ממושלמת.\nאצלי מקבלים מעטפת מלאה תחת קורת גג אחת, בלי לחפש כמה אנשי מקצוע שונים:',
     items: [
       {
         title: 'קופי ותסריט מנצח',
@@ -48,42 +50,25 @@ export const businessContent = {
   },
   worksTitle: 'דוגמאות',
   works: [
-    { url: '/media/20261006-0716-47.6506063 (1).mp4' },
-    { url: '/media/20261006-0722-53.8457015 (1).mp4' },
-    { url: '/media/20261006-0812-42.7315336 (1).mp4' },
-    { url: '/media/20261006-0835-01.4569726.mp4' },
-    { url: '/media/טריילר דה ז\'ה וו2  (1).mp4', title: 'טריילר דה ז\'ה וו' },
+    { url: 'https://www.youtube.com/watch?v=WhVA_L5Qkzg', title: 'דסי לוי סרטון תדמית' },
+    { url: 'https://www.youtube.com/watch?v=wijZidL1BY8', title: 'סרטון תדמית יעל בן עמרם' },
+    { url: 'https://www.youtube.com/watch?v=DbUjXbvmoqE', title: 'סרטון סטטוס רבקי אביטל' },
+    { url: 'https://www.youtube.com/watch?v=AP2DUBeeeJE', title: 'דסי לוי מאחורי הקלעים' },
+    { url: 'https://www.youtube.com/watch?v=sBK5kAZ7wT0', title: 'רבקי אביטל טיזר סמינר עסקי 1' },
+    { url: 'https://www.youtube.com/watch?v=OZV6N2tciuE', title: 'סרטון שיווק לסטטוס 3' },
+    { url: 'https://www.youtube.com/watch?v=2M_JjPbMZa8', title: 'סרטון שיווק לסטטוס 1' },
+    { url: 'https://www.youtube.com/watch?v=uWGo-Sx6J7c', title: 'סרטון שיווק לסטטוס 2' },
+    { url: 'https://www.youtube.com/watch?v=LAmIoTtMOqU', title: 'The Lakewood of the South' },
+    { url: 'https://www.youtube.com/watch?v=OkV-s9azO1o', title: 'בית הלוי אדר תשפ"ה' },
+    { url: 'https://www.youtube.com/watch?v=vrfFHVV2IBM', title: 'עוצמת הבניה בית הלוי' },
+    { url: 'https://www.youtube.com/watch?v=Ez_v0aRoD6k', title: 'מרים הרוש כנס אשדוד' },
+    { url: 'https://www.youtube.com/watch?v=wShU73B7ygY', title: 'ברוך הומינר' },
+    { url: 'https://www.youtube.com/watch?v=zSzPkA8chWU', title: 'רבקי אביטל טיזר סמינר עסקי 2' },
+    { url: 'https://www.youtube.com/watch?v=vRHqmFZ5V8U', title: 'לילך מקאניק תקציר קורס פשוט להרגיש' },
   ],
-  recommendationsTitle: 'המלצות של לקוחות',
-  recommendations: [
-    {
-      name: 'בקרמן בריאות',
-      text: 'שמי ישראל בקרמן — מנהל בקרמן בריאות. שכרתי את שירותיה של גב׳ שירה אשר למספר גדול של סדנאות צילום. והתוצאות… מעבר לכל דמיון. עבודה מקצועית ברמה גבוהה. בכל זאת גב׳ אשר שופכת נשמתה ומשקיעה מאמץ עצום כדי שיצא מושלם. אכן, התוצאות היו מעבר לדמיון — הסדנאות שהיא הסריטה נחטפו במאות עותקים במהירות. איכותה המקצועית תרמה לכך בגדול. תודה ענקית על השירות המדהים.',
-      image: '/logos/clients/client-25.png',
-    },
-    {
-      name: 'רות ולדמן',
-      text: 'מה שלומך? רצינו לספר לך שהקרנו את הווידאו באיזה סמינר בירושלים ומאוד נהנו גם מהמקצועיות!!! ומהאיכות הגבוהה של השמע ושל ההסרטה. תודה רבה.',
-    },
-    {
-      name: 'לילך מכניק',
-      text: 'היי שירה יקרה, מתרגשת לשתף אותך שהקורס עלה לאוויר בשעה טובה ומוצלחת!! משתפת אותך בקישור! תודה רבה על ימים ושעות של עמל והשקעה! מעריכה הכי בעולם!!! ניפגש בעז״ה בקורס הבא',
-    },
-    {
-      name: 'גיטי רינגל',
-      text: 'מיד רציתי לרשום לך שתדעי שאני עבדתי ועובדת הרבה עם צלמות, וכולם כמובן רוצות שיצא להם מושלם! ומאוד דאגתי שלא ייפגע בקהל… היית דיסקרטית ושמרת על החוויה של הצופות בצורה מדהימה! ולמרות הנתונים הטכניים — ברוגע דאגת שההסרטה תצליח! מחכה כבר לראות את ההסרטות…',
-    },
-    {
-      name: 'מרכז רבקי אביטל',
-      text: 'שירהה את אלופההה, עכשיו צפיתי בזה. מרתק ועורך ברמה!!! אני רוצה אותך איתי צמודה. אני מכינה תקציב לסרטון הבא! (אני רוצה סרטון לשיווק של הנכס הבא אחרי פסח)',
-      image: '/logos/clients/client-10.png',
-    },
-    {
-      name: 'שמעיה',
-      text: 'שירה! שירה! יקרה!!! נראה לי שלאחר פעם אחת נוצרה אינטראקציה מדהימה וכל היתר… היסטוריה… העבודה שלך מדויקת ומקצועית, אין חיפופים, ובתוך כל הדיוקים והמקצועיות — רוגע, כיפיות, כבוד, חווייתי, מתחברת למשימה ונותנת את כל כולך… ממש אין מה להתלבט: ההסרטות, העיבודים, ההגשה — הכל בטוב טעם. אנחנו משתמשים בחומרים והציבור נהנה מאוד! מאוד! יש לי עוד המון מה להסריט, עוד נדבר… שירה יקרה, שוב מברכת אותך בהמון הצלחה בכל אשר תפני.',
-      image: '/logos/clients/client-26.png',
-    },
-  ],
+  recommendationsTitle: 'החוויה שלהם, במילים שלהם',
+  recommendations: sharedRecommendations,
+  recommendationStart: businessRecommendationStart,
   process: {
     title: 'איך זה עובד?',
     intro: 'תהליך העבודה איתי מובנה, מדויק וקל',
@@ -112,6 +97,6 @@ export const businessContent = {
   },
   cta: {
     title: 'רוצים להתחיל?',
-    button: 'לחצו כאן לשיחת ייעוץ קצרה',
+    button: 'לחצו כאן',
   },
 }

@@ -1,3 +1,5 @@
+import { sharedRecommendations } from './recommendations'
+
 export const videoContent = {
   hero: {
     title: 'עולם של וידאו',
@@ -42,62 +44,23 @@ export const videoContent = {
     examplesNote:
       'כל סרטון נבנה בהתאמה אישית לרעיון, לסגנון ולמטרה של מי שעומד מול המצלמה',
     videos: [
-      { url: '/media/20261006-0812-42.7315336 (1).mp4' },
-      { url: 'https://www.youtube.com/watch?v=etDfpl5pA38' },
-      { url: 'https://www.youtube.com/watch?v=fcGTSuxDZ6g' },
-      { url: 'https://www.youtube.com/watch?v=zgXUmQzInxI' },
-      { url: 'https://www.youtube.com/watch?v=TgzlK93-llI' },
-      { url: 'https://www.youtube.com/watch?v=sBK5kAZ7wT0' },
+      { url: 'https://www.youtube.com/watch?v=X8HgYv9qzqc', title: 'פתיח רכבת' },
+      {
+        url: 'https://www.youtube.com/watch?v=-g3iGeYU-1s',
+        title: 'קולולם חורב עם ישראל סוסנא – קמפיין מצ\'ינג',
+      },
+      { url: 'https://www.youtube.com/watch?v=Lwoi4O0KNT8', title: 'שני ילדים ומצלמה 1' },
+      {
+        url: 'https://www.youtube.com/watch?v=sv9sXoJ1pp8',
+        title: 'שנשתוקק – יסראל סוסנה וחורב רעננה',
+      },
+      { url: 'https://www.youtube.com/watch?v=xHbGyWeHLQA', title: 'קליפ כוחה של תורה' },
+      { url: 'https://www.youtube.com/watch?v=CrE4tSO95mQ', title: 'שיר מילים שונות' },
+      { url: 'https://www.youtube.com/watch?v=jxhv93C-YtA', title: 'תיק עבודות אפטר' },
     ],
   },
   recommendationsTitle: 'החוויה שלהם, במילים שלהם',
-  recommendations: [
-    {
-      name: 'בית ספר צלילים',
-      text: 'יאוו שירה, אמאלהההה, זה פשוט משגע! מייצג את הבנות כ״כ בכבוד, וכ״כ יפה. אני ממש בהתפעלות. ערוך אש! גם המנגינה ברקע, גם קטעי המעבר, וואווו.',
-      image: '/logos/clients/client-37.png',
-    },
-    {
-      name: 'מיכל ירושלמי',
-      text: 'ערב טוב שירה. יצירת אומנות!!! נותרתי ללא מילים!!!! את פשוט אלופה בסדר גודל!!!!!! תודה ענקית.',
-      image: '/logos/clients/client-28.png',
-    },
-    {
-      name: "סמינר בית יעקב בית שמש",
-      text: 'שירה, הסרטון מדהים!!! אין מילים. הוא פשוט מושלם!!! תודה רבה רבה. היה תענוג לעבוד איתך. שומרים את הפרטים ליום שנצטרך שוב…',
-      image: '/logos/clients/client-34.png',
-    },
-    {
-      name: 'סמינר בית יעקב אשדוד',
-      text: 'שירה, קליפ הסיום פשוט הרים את כל הערב. הבנות לא הפסיקו לבקש לראות אותו שוב. העריכה, המוזיקה, הקצב — הכל מדויק. תודה ענקית, שומרות אותך לשנה הבאה.',
-      image: '/logos/clients/client-22.png',
-    },
-    {
-      name: 'הבית | לאמנויות במה',
-      text: 'וואו שירה, התיעוד של המופע יצא יצירת אמנות. תפסת את הבמה, את האנרגיה ואת הרגש בדיוק כמו שהיה באולם. אין מילים, פשוט מושלם.',
-      image: '/logos/clients/client-03.png',
-    },
-    {
-      name: 'מנגינה',
-      text: 'שירה יקרה, הקליפ מרגש ברמות. המוזיקה יושבת על התמונה כאילו נולדו יחד, והצבעים פשוט שרים. הקהל שלנו לא מפסיק לשתף. תודה על עבודה כל כך מדויקת.',
-      image: '/logos/clients/client-30.png',
-    },
-    {
-      name: 'תנועת הנוער בני חיל',
-      text: 'אמאלה איזה סרטון! המסיבה קיבלה חיים מחדש. המעברים, הקצב, החיוכים של החניכים — הכל שם. הבנות והצוות בהתלהבות. עבודה ברמה אחרת.',
-      image: '/logos/clients/client-13.png',
-    },
-    {
-      name: 'בית-ספר יסודי התורה',
-      text: 'שירה, הסרטון של סוף השנה מייצג את הילדים בכבוד ובחום. ההורים התרגשו, הצוות התרגש, ואנחנו כבר חושבים על הפרויקט הבא. תודה על סבלנות, דיוק ולב.',
-      image: '/logos/clients/client-06.png',
-    },
-    {
-      name: 'קתדרה',
-      text: 'שירה, לקחת חומרי במה והפכת אותם לסרטון שמזיז. העריכה חדה, הכתוביות ברורות, והאווירה נשארת גם אחרי שהמסך נכבה. זה בדיוק מה שחיפשנו.',
-      image: '/logos/clients/client-29.png',
-    },
-  ],
+  recommendations: sharedRecommendations,
   why: {
     title: 'למה דווקא איתי?',
     items: [

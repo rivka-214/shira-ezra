@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { useState, type ReactNode } from 'react'
 import { useInView } from '../motion/useInView'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
@@ -26,26 +26,31 @@ function highlightHero(line: string): ReactNode[] {
 export function BusinessPage() {
   const whyNow = useInView<HTMLElement>({ threshold: 0.18 })
   const envelope = useInView<HTMLElement>({ threshold: 0.16 })
+  const [flippedCard, setFlippedCard] = useState<number | null>(null)
+
+  function toggleCard(index: number) {
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    if (finePointer) return
+    setFlippedCard((current) => (current === index ? null : index))
+  }
 
   return (
     <PageShell>
       <section className="page-hero-shell biz-hero-shell">
-        <div className="wrap">
-          <div className="page-hero-panel biz-hero-panel blue-wave-panel">
-            <div className="biz-hero-inner">
-              <h1 className="biz-hero-title">{c.hero.title}</h1>
-              {c.hero.lines.map((line, index) => (
-                <p
-                  className="lead biz-hero-line"
-                  key={line.slice(0, 24)}
-                  style={{ animationDelay: `${0.42 + index * 0.28}s` }}
-                >
-                  {highlightHero(line)}
-                </p>
-              ))}
-            </div>
-            <WaveDecor variant="hero" />
+        <div className="page-hero-panel biz-hero-panel blue-wave-panel">
+          <div className="biz-hero-inner">
+            <h1 className="biz-hero-title">{c.hero.title}</h1>
+            {c.hero.lines.map((line, index) => (
+              <p
+                className="lead biz-hero-line"
+                key={line.slice(0, 24)}
+                style={{ animationDelay: `${0.42 + index * 0.28}s` }}
+              >
+                {highlightHero(line)}
+              </p>
+            ))}
           </div>
+          <WaveDecor variant="hero" />
         </div>
       </section>
 
@@ -59,12 +64,31 @@ export function BusinessPage() {
             <div className="biz-why-row">
               {c.whyNow.items.map((item, index) => (
                 <div
-                  className="biz-why-card find-rise"
+                  className={
+                    flippedCard === index
+                      ? 'biz-why-card find-rise is-flipped'
+                      : 'biz-why-card find-rise'
+                  }
                   key={item.title}
+                  tabIndex={0}
                   style={{ animationDelay: `${0.12 + index * 0.18}s` }}
+                  onClick={() => toggleCard(index)}
+                  onKeyDown={(event) => {
+                    if (event.key !== 'Enter' && event.key !== ' ') return
+                    event.preventDefault()
+                    setFlippedCard((current) => (current === index ? null : index))
+                  }}
                 >
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
+                  <div className="biz-why-scene">
+                    <div className="biz-why-card-inner">
+                      <div className="biz-why-face biz-why-front">
+                        <h3>{item.title}</h3>
+                      </div>
+                      <div className="biz-why-face biz-why-back">
+                        <p>{item.text}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -77,7 +101,13 @@ export function BusinessPage() {
         ref={envelope.ref}
       >
         <div className="wrap">
-          <p className="lead biz-envelope-intro find-rise">{c.envelope.intro}</p>
+          <p className="lead biz-envelope-intro find-rise">
+            {c.envelope.intro.split('\n').map((line) => (
+              <span className="biz-envelope-line" key={line}>
+                {line}
+              </span>
+            ))}
+          </p>
           <div className="why-grid">
             {c.envelope.items.map((item, index) => (
               <div key={item.title}>
@@ -105,13 +135,17 @@ export function BusinessPage() {
         </div>
       </section>
 
-      <section className="blk reviews-close" id="reviews">
+      <section className="blk reviews-close biz-reviews" id="reviews">
         <div className="wrap">
-          <Recommendations title={c.recommendationsTitle} items={c.recommendations} />
+          <Recommendations
+            title={c.recommendationsTitle}
+            items={c.recommendations}
+            startIndex={c.recommendationStart}
+          />
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band cta-on-white">
         <div className="wrap">
           <h2>{c.cta.title}</h2>
           <Cta href="#contact">{c.cta.button}</Cta>

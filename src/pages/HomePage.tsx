@@ -12,12 +12,7 @@ export function HomePage() {
         <HeroShowreel />
         <div className="hero-veil" />
         <div className="home-center wrap">
-          <img
-            className="home-logo home-rise"
-            src={site.logoSrc}
-            alt={site.name}
-            style={{ animationDelay: '0.18s' }}
-          />
+          <img className="home-logo" src={site.logoAnimatedSrc} alt={site.name} />
           <DomainEntry />
         </div>
         <WaveDecor variant="bottom" />
