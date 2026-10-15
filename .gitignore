@@ -28,3 +28,6 @@ public/media/events/
 *.njsproj
 *.sln
 *.sw?
+
+.video-analyze/
+

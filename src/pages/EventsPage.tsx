@@ -43,6 +43,13 @@ export function EventsPage() {
             }
             ref={heroRef}
           >
+            <img
+              className="events-twelve-sticker"
+              src="/media/events/twelve-sticker.png"
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+            />
             <RevealHeading as="h1">{c.hero.title}</RevealHeading>
             <p className="sub">{c.hero.subtitle}</p>
             {c.hero.lead.map((p, index) => (
@@ -93,7 +100,7 @@ export function EventsPage() {
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band cta-on-white">
         <div className="wrap">
           <h2>{c.cta.title}</h2>
           <Cta href="#contact">{c.cta.button}</Cta>

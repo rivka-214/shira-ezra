@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { ConstructionNotice } from './components/layout/ConstructionNotice'
 import { PageTransition } from './components/motion/PageTransition'
 import { BusinessPage } from './pages/BusinessPage'
 import { EventsPage } from './pages/EventsPage'
@@ -26,6 +27,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <RouteWipe />
+      <ConstructionNotice />
       <PageTransition>
         <Routes>
           <Route path="/" element={<HomePage />} />

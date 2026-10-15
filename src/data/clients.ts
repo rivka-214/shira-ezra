@@ -40,5 +40,6 @@ export const clients = {
     { name: 'client-37', src: '/logos/clients/client-37.png' },
     { name: 'client-38', src: '/logos/clients/client-38.png' },
     { name: 'client-39', src: '/logos/clients/client-39.png' },
+    { name: 'client-40', src: '/logos/clients/client-40.png' },
   ],
 } as const

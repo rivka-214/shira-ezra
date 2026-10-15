@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { EnvelopeFanCards } from '../components/business/EnvelopeFanCards'
 import { useInView } from '../motion/useInView'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
@@ -6,6 +7,7 @@ import { WaveDecor } from '../components/layout/WaveDecor'
 import { ProcessSteps } from '../components/process/ProcessSteps'
 import { Recommendations } from '../components/recommendations/Recommendations'
 import { Cta } from '../components/ui/Cta'
+import { LinesHero } from '../components/video/LinesHero'
 import { businessContent as c } from '../data/business'
 
 const heroHighlights = ['להבליט', 'אמון']
@@ -25,7 +27,7 @@ function highlightHero(line: string): ReactNode[] {
 
 export function BusinessPage() {
   const whyNow = useInView<HTMLElement>({ threshold: 0.18 })
-  const envelope = useInView<HTMLElement>({ threshold: 0.16 })
+  const envelope = useInView<HTMLElement>({ threshold: 0.28 })
   const [flippedCard, setFlippedCard] = useState<number | null>(null)
 
   function toggleCard(index: number) {
@@ -96,34 +98,31 @@ export function BusinessPage() {
         </div>
       </section>
 
-      <section
-        className={envelope.visible ? 'blk biz-envelope why-block is-in' : 'blk biz-envelope why-block'}
-        ref={envelope.ref}
-      >
-        <div className="wrap">
-          <p className="lead biz-envelope-intro find-rise">
-            {c.envelope.intro.split('\n').map((line) => (
-              <span className="biz-envelope-line" key={line}>
-                {line}
-              </span>
-            ))}
-          </p>
-          <div className="why-grid">
-            {c.envelope.items.map((item, index) => (
-              <div key={item.title}>
-                <h3 className="find-rise" style={{ animationDelay: `${0.14 + index * 0.1}s` }}>
-                  {item.title}
-                </h3>
-                <p className="find-rise" style={{ animationDelay: `${0.24 + index * 0.1}s` }}>
-                  {item.text}
-                </p>
-              </div>
-            ))}
+      <div ref={envelope.ref}>
+        <LinesHero
+          className={
+            envelope.visible
+              ? 'lines-hero-section biz-envelope why-block is-in'
+              : 'lines-hero-section biz-envelope why-block'
+          }
+          contentClassName="lines-hero-section-content"
+          label="מעטפת השירות"
+          interactive
+        >
+          <div className="wrap">
+            <p className="lead biz-envelope-intro find-rise">
+              {c.envelope.intro.split('\n').map((line) => (
+                <span className="biz-envelope-line" key={line}>
+                  {line}
+                </span>
+              ))}
+            </p>
+            <EnvelopeFanCards items={c.envelope.items} active={envelope.visible} />
           </div>
-        </div>
-      </section>
+        </LinesHero>
+      </div>
 
-      <section className="blk alt" id="how">
+      <section className="blk biz-how" id="how">
         <div className="wrap">
           <ProcessSteps title={c.process.title} intro={c.process.intro} steps={c.process.steps} />
         </div>

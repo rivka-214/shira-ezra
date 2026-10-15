@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { FindSquares } from '../components/video/FindSquares'
+import { LinesHero } from '../components/video/LinesHero'
+import {
+  DrawBehindLine,
+  ScrollDrawSequence,
+} from '../components/video/ScrollDrawHighlight'
 import { PageShell } from '../components/layout/PageShell'
 import { Recommendations } from '../components/recommendations/Recommendations'
 import { StickyWhySection } from '../components/video/StickyWhySection'
@@ -12,9 +17,7 @@ export function VideoPage() {
   const { ref: findRef, visible: findIn } = useInView<HTMLElement>({ threshold: 0.08 })
   const [findIconsDraw, setFindIconsDraw] = useState(false)
   const whyRef = useRef<HTMLElement>(null)
-  const emphasisRef = useRef<HTMLParagraphElement>(null)
   const [whyIn, setWhyIn] = useState(false)
-  const [emphasisIn, setEmphasisIn] = useState(false)
 
   useEffect(() => {
     if (!findIn) {
@@ -31,31 +34,6 @@ export function VideoPage() {
       cancelAnimationFrame(raf2)
     }
   }, [findIn])
-
-  useEffect(() => {
-    const node = emphasisRef.current
-    if (!node) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setEmphasisIn(true)
-      return
-    }
-
-    const reveal = () => {
-      if (window.scrollY < 16) return
-      const rect = node.getBoundingClientRect()
-      const viewH = window.innerHeight
-      const arrived = rect.top < viewH * 0.82 && rect.bottom > viewH * 0.12
-      if (arrived) setEmphasisIn(true)
-    }
-
-    reveal()
-    window.addEventListener('scroll', reveal, { passive: true })
-    window.addEventListener('resize', reveal)
-    return () => {
-      window.removeEventListener('scroll', reveal)
-      window.removeEventListener('resize', reveal)
-    }
-  }, [])
 
   useEffect(() => {
     const section = whyRef.current
@@ -76,38 +54,41 @@ export function VideoPage() {
     return () => observer.disconnect()
   }, [])
 
+  const leadCount = c.hero.lead.length
+
   return (
     <PageShell>
-      <section className="page-hero-shell video-hero-shell">
-        <div className="page-hero-panel video-hero-panel video-hero blue-wave-panel">
-          <div className="video-hero-inner">
-            <h1 className="video-hero-title">{c.hero.title}</h1>
-            <div className="video-hero-copy">
-              <p className="sub">{c.hero.subtitle}</p>
-              {c.hero.lead.map((p) => (
-                <p className="lead" key={p.slice(0, 24)}>
-                  {p}
-                </p>
-              ))}
-            </div>
-            <p
-              className={emphasisIn ? 'video-hero-emphasis is-in' : 'video-hero-emphasis'}
-              ref={emphasisRef}
+      <LinesHero contentClassName="video-hero">
+        <div className="video-hero-inner">
+          <h1 className="video-hero-title video-hero-title-pill">{c.hero.title}</h1>
+          <ScrollDrawSequence className="video-hero-copy">
+            <DrawBehindLine order={0} className="sub">
+              {c.hero.subtitle}
+            </DrawBehindLine>
+            {c.hero.lead.map((p, i) => (
+              <DrawBehindLine
+                order={1 + i}
+                className={i === 0 ? 'lead lead-bar' : 'lead'}
+                key={p.slice(0, 24)}
+              >
+                {p}
+              </DrawBehindLine>
+            ))}
+            <DrawBehindLine
+              order={1 + leadCount}
+              className="video-hero-emphasis-hook draw-emphasis"
             >
-              <span className="video-hero-emphasis-hook">{c.hero.emphasisHook}</span>
-              <span className="video-hero-emphasis-tail">{c.hero.emphasisTail}</span>
-            </p>
-          </div>
+              {c.hero.emphasisHook}
+            </DrawBehindLine>
+            <DrawBehindLine
+              order={2 + leadCount}
+              className="video-hero-emphasis-tail draw-emphasis"
+            >
+              {c.hero.emphasisTail}
+            </DrawBehindLine>
+          </ScrollDrawSequence>
         </div>
-        <svg
-          className="video-hero-wave"
-          viewBox="0 0 1440 96"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path d="M0 0h1440v58c-80 4-200 16-340 14-180-2-300-22-460-36C460 20 280 16 140 28 60 36 20 46 0 52V0z" />
-        </svg>
-      </section>
+      </LinesHero>
 
       <section className={findIn ? 'blk find-here is-in' : 'blk find-here'} ref={findRef}>
         <div className="wrap">
@@ -146,7 +127,7 @@ export function VideoPage() {
         </div>
       </section>
 
-      <section className="cta-band">
+      <section className="cta-band cta-on-white">
         <div className="wrap">
           <h2>{c.cta.title}</h2>
           <Cta href="#contact">{c.cta.button}</Cta>
