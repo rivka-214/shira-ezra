@@ -1,24 +1,57 @@
-import { useState, type ReactNode } from 'react'
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { EnvelopeFanCards } from '../components/business/EnvelopeFanCards'
 import { useInView } from '../motion/useInView'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
-import { WaveDecor } from '../components/layout/WaveDecor'
 import { ProcessSteps } from '../components/process/ProcessSteps'
 import { Recommendations } from '../components/recommendations/Recommendations'
 import { Cta } from '../components/ui/Cta'
+import { HeroUnderline } from '../components/video/HeroUnderline'
 import { LinesHero } from '../components/video/LinesHero'
 import { businessContent as c } from '../data/business'
 
 const heroHighlights = ['להבליט', 'אמון']
 
-function highlightHero(line: string): ReactNode[] {
+function BizWhyCheck() {
+  return (
+    <span className="why-open-check biz-why-check" aria-hidden="true">
+      <svg viewBox="0 0 72 72" focusable="false">
+        <circle className="why-open-check-ring" cx="36" cy="36" r="30" />
+        <path
+          className="why-open-check-mark"
+          d="M20 37.5c2.8 3.6 8.6 12.8 14.8 17.6 1.2 0.9 2.6 0.35 3.3-0.9C46.2 41.5 54.6 27.2 64 14"
+          pathLength={1}
+        />
+      </svg>
+    </span>
+  )
+}
+
+function LimeMark({ word, index }: { word: string; index: number }) {
+  return (
+    <span
+      className="biz-em draw-behind draw-underline hero-line"
+      style={{ ['--hero-i' as string]: index } as CSSProperties}
+    >
+      <span className="draw-behind-text">{word}</span>
+      <svg
+        className="draw-behind-fill draw-underline-stroke"
+        viewBox="0 0 200 12"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M1 7 Q 40 3.5, 80 7.5 T 160 7 Q 180 9, 199 6.5" />
+      </svg>
+    </span>
+  )
+}
+
+function highlightHero(line: string, lineIndex: number): ReactNode[] {
   const pattern = new RegExp(`(${heroHighlights.join('|')})`, 'g')
   return line.split(pattern).map((part, index) =>
     heroHighlights.includes(part) ? (
-      <span className="biz-em" key={`${part}-${index}`}>
-        {part}
-      </span>
+      <LimeMark word={part} index={lineIndex + 1} key={`${part}-${index}`} />
     ) : (
       part
     ),
@@ -27,33 +60,41 @@ function highlightHero(line: string): ReactNode[] {
 
 export function BusinessPage() {
   const whyNow = useInView<HTMLElement>({ threshold: 0.18 })
-  const envelope = useInView<HTMLElement>({ threshold: 0.28 })
-  const [flippedCard, setFlippedCard] = useState<number | null>(null)
+  const envelope = useInView<HTMLElement>({ threshold: 0.2 })
+  const envelopePinRef = useRef<HTMLElement | null>(null)
+  const [activeWhy, setActiveWhy] = useState<number | null>(0)
 
-  function toggleCard(index: number) {
+  function toggleWhy(index: number) {
     const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches
     if (finePointer) return
-    setFlippedCard((current) => (current === index ? null : index))
+    setActiveWhy((current) => (current === index ? null : index))
   }
 
   return (
     <PageShell>
       <section className="page-hero-shell biz-hero-shell">
-        <div className="page-hero-panel biz-hero-panel blue-wave-panel">
-          <div className="biz-hero-inner">
-            <h1 className="biz-hero-title">{c.hero.title}</h1>
+        <LinesHero
+          className="biz-hero-lines"
+          contentClassName="biz-hero-mesh-content"
+          label={c.hero.title}
+          tone="mesh"
+          cover
+        >
+          <div className="biz-hero-inner draw-sequence">
+            <HeroUnderline as="h1" index={0} underline className="biz-hero-title">
+              {c.hero.title}
+            </HeroUnderline>
             {c.hero.lines.map((line, index) => (
               <p
-                className="lead biz-hero-line"
+                className="lead biz-hero-line hero-line"
                 key={line.slice(0, 24)}
-                style={{ animationDelay: `${0.42 + index * 0.28}s` }}
+                style={{ ['--hero-i' as string]: index + 1 } as CSSProperties}
               >
-                {highlightHero(line)}
+                {highlightHero(line, index + 1)}
               </p>
             ))}
           </div>
-          <WaveDecor variant="hero" />
-        </div>
+        </LinesHero>
       </section>
 
       <section
@@ -62,65 +103,88 @@ export function BusinessPage() {
       >
         <div className="wrap">
           <h2 className="biz-why-heading find-rise">{c.whyNow.title}</h2>
-          <div className="biz-why-frame">
-            <div className="biz-why-row">
-              {c.whyNow.items.map((item, index) => (
-                <div
-                  className={
-                    flippedCard === index
-                      ? 'biz-why-card find-rise is-flipped'
-                      : 'biz-why-card find-rise'
-                  }
-                  key={item.title}
-                  tabIndex={0}
-                  style={{ animationDelay: `${0.12 + index * 0.18}s` }}
-                  onClick={() => toggleCard(index)}
-                  onKeyDown={(event) => {
-                    if (event.key !== 'Enter' && event.key !== ' ') return
-                    event.preventDefault()
-                    setFlippedCard((current) => (current === index ? null : index))
-                  }}
-                >
-                  <div className="biz-why-scene">
-                    <div className="biz-why-card-inner">
-                      <div className="biz-why-face biz-why-front">
-                        <h3>{item.title}</h3>
-                      </div>
-                      <div className="biz-why-face biz-why-back">
-                        <p>{item.text}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div
+            className="biz-why-strip find-rise"
+            style={{ animationDelay: '0.14s' }}
+            onMouseLeave={() => {
+              if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+                setActiveWhy(0)
+              }
+            }}
+          >
+            {c.whyNow.items.map((item, index) => (
+              <article
+                className={
+                  activeWhy === index ? 'biz-why-pane is-active find-rise' : 'biz-why-pane find-rise'
+                }
+                key={item.title}
+                tabIndex={0}
+                style={{ animationDelay: `${0.18 + index * 0.12}s` }}
+                onMouseEnter={() => setActiveWhy(index)}
+                onFocus={() => setActiveWhy(index)}
+                onClick={() => toggleWhy(index)}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Enter' && event.key !== ' ') return
+                  event.preventDefault()
+                  setActiveWhy((current) => (current === index ? null : index))
+                }}
+              >
+                <BizWhyCheck />
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <div ref={envelope.ref}>
-        <LinesHero
-          className={
-            envelope.visible
-              ? 'lines-hero-section biz-envelope why-block is-in'
-              : 'lines-hero-section biz-envelope why-block'
-          }
-          contentClassName="lines-hero-section-content"
-          label="מעטפת השירות"
-          interactive
-        >
-          <div className="wrap">
-            <p className="lead biz-envelope-intro find-rise">
-              {c.envelope.intro.split('\n').map((line) => (
-                <span className="biz-envelope-line" key={line}>
-                  {line}
-                </span>
-              ))}
-            </p>
-            <EnvelopeFanCards items={c.envelope.items} active={envelope.visible} />
-          </div>
-        </LinesHero>
-      </div>
+      <section
+        className={
+          envelope.visible
+            ? 'envelope-scroll-pin biz-envelope why-block is-in'
+            : 'envelope-scroll-pin biz-envelope why-block'
+        }
+        ref={(node) => {
+          envelope.ref.current = node
+          envelopePinRef.current = node
+        }}
+      >
+        <div className="envelope-scroll-sticky">
+          <LinesHero
+            className="lines-hero-section"
+            contentClassName="lines-hero-section-content"
+            label="מעטפת השירות"
+            interactive
+            cover
+            showLines
+          >
+            <div className="wrap">
+              <div className="find-here-copy">
+                <p className="lead biz-envelope-intro find-rise">
+                  {c.envelope.intro.split('\n').map((line) =>
+                    line.includes('מעטפת מלאה') ? (
+                      <HeroUnderline
+                        as="span"
+                        key={line}
+                        underline
+                        inView
+                        className="biz-envelope-line"
+                      >
+                        {line}
+                      </HeroUnderline>
+                    ) : (
+                      <span className="biz-envelope-line" key={line}>
+                        {line}
+                      </span>
+                    ),
+                  )}
+                </p>
+              </div>
+              <EnvelopeFanCards items={c.envelope.items} pinRef={envelopePinRef} />
+            </div>
+          </LinesHero>
+        </div>
+      </section>
 
       <section className="blk biz-how" id="how">
         <div className="wrap">

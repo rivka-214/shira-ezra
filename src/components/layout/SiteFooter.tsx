@@ -76,7 +76,12 @@ export function SiteFooter() {
                   <span>{site.phoneDisplay}</span>
                 </span>
               </a>
-              <a className="cinfo-item" href={`mailto:${site.email}`}>
+              <a
+                className="cinfo-item"
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(site.email)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span className="cinfo-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3.5" y="5.5" width="17" height="13" rx="2" />

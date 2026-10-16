@@ -240,7 +240,7 @@ type LineProps = {
   children: ReactNode
 }
 
-/** One text line with a lime pill that draws behind it. */
+/** One text line with a thin lime underline that draws in on scroll. */
 export function DrawBehindLine({ order, as: Tag = 'p', className, children }: LineProps) {
   const api = useContext(DrawSequenceContext)
   const id = useRef(`draw-${order}-${Math.random().toString(36).slice(2, 7)}`).current
@@ -251,17 +251,25 @@ export function DrawBehindLine({ order, as: Tag = 'p', className, children }: Li
     return () => api.unregister(id)
   }, [api, id, order])
 
-  const classes = ['draw-behind', className].filter(Boolean).join(' ')
+  const classes = ['draw-behind', 'draw-underline', className].filter(Boolean).join(' ')
 
   return (
     <Tag className={classes} style={{ '--draw': 0 } as CSSProperties}>
-      <span
-        className="draw-behind-fill"
+      <span className="draw-behind-text">{children}</span>
+      <svg
+        className="draw-behind-fill draw-underline-stroke"
         data-draw-fill
         data-draw-order={order}
+        viewBox="0 0 200 12"
+        preserveAspectRatio="none"
         aria-hidden="true"
-      />
-      <span className="draw-behind-text">{children}</span>
+        focusable="false"
+      >
+        <path
+          pathLength={100}
+          d="M0 7.5 C 30 3.2, 55 10.8, 80 6.2 S 130 2.8, 155 7.8 S 185 10.2, 200 6.5"
+        />
+      </svg>
     </Tag>
   )
 }

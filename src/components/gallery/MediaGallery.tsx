@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { FadeUp } from '../motion/FadeUp'
 import { RevealHeading } from '../motion/RevealHeading'
+import { HeroUnderline } from '../video/HeroUnderline'
 import { HorizontalScrollGallery } from './HorizontalScrollGallery'
 import { useScrollProgress } from '../../motion/useScrollProgress'
 import { useInView } from '../../motion/useInView'
@@ -147,7 +148,9 @@ export function MediaGallery({
       {title ? <RevealHeading>{title}</RevealHeading> : null}
       {note ? (
         <FadeUp delay={0.08}>
-          <p className="muted">{note}</p>
+          <HeroUnderline underline inView className="muted gallery-note-line">
+            {note}
+          </HeroUnderline>
         </FadeUp>
       ) : null}
       {playable.length > 0 ? (

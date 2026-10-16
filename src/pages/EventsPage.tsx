@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { BlockedStamp } from '../components/events/BlockedStamp'
+import { ConfettiBurst } from '../components/events/ConfettiBurst'
+import { SpinBookDate } from '../components/events/SpinBookDate'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
 import { RevealHeading } from '../components/motion/RevealHeading'
@@ -6,6 +9,8 @@ import { EventPackages } from '../components/packages/EventPackages'
 import { ProcessSteps } from '../components/process/ProcessSteps'
 import { Recommendations } from '../components/recommendations/Recommendations'
 import { Cta } from '../components/ui/Cta'
+import { HeroUnderline } from '../components/video/HeroUnderline'
+import { SparkTrail } from '../components/video/SparkTrail'
 import { eventsContent as c } from '../data/events'
 
 export function EventsPage() {
@@ -33,6 +38,7 @@ export function EventsPage() {
 
   return (
     <PageShell>
+      <ConfettiBurst delayMs={1000} durationMs={6000} />
       <section className="page-hero-shell events-hero-shell">
         <div className="wrap events-section">
           <div
@@ -43,54 +49,75 @@ export function EventsPage() {
             }
             ref={heroRef}
           >
-            <img
-              className="events-twelve-sticker"
-              src="/media/events/twelve-sticker.png"
-              alt=""
-              aria-hidden="true"
-              draggable={false}
-            />
+            <SparkTrail />
             <RevealHeading as="h1">{c.hero.title}</RevealHeading>
-            <p className="sub">{c.hero.subtitle}</p>
-            {c.hero.lead.map((p, index) => (
-              <p
-                className="lead events-hero-lead"
-                key={p.slice(0, 24)}
-                style={{ ['--lead-delay' as string]: `${0.2 + index * 0.08}s` }}
-              >
-                {p}
-              </p>
-            ))}
+            <HeroUnderline index={0} underline className="sub events-hero-sub">
+              {c.hero.subtitle}
+            </HeroUnderline>
+            {c.hero.lead.map((p, index) => {
+              const delay = `${0.2 + index * 0.08}s`
+              const isMagic = p.includes('מגיע לך ולבתך')
+              if (isMagic) {
+                return (
+                  <HeroUnderline
+                    key={p.slice(0, 24)}
+                    underline
+                    inView
+                    index={index}
+                    className="lead events-hero-lead"
+                    style={{ ['--lead-delay' as string]: delay }}
+                  >
+                    {p}
+                  </HeroUnderline>
+                )
+              }
+              return (
+                <p
+                  className="lead events-hero-lead"
+                  key={p.slice(0, 24)}
+                  style={{ ['--lead-delay' as string]: delay }}
+                >
+                  {p}
+                </p>
+              )
+            })}
           </div>
         </div>
       </section>
 
-      <section className="blk events-section" id="works">
-        <div className="wrap">
+      <section className="blk events-section events-works" id="works">
+        <div className="wrap events-works-wrap">
           <MediaGallery
             title={c.worksTitle}
             videos={c.works}
             previewCount={c.works.length}
             scrollGallery
           />
+          <BlockedStamp />
         </div>
       </section>
 
-      <section className="blk alt events-section" id="how">
+      <section className="blk events-section events-how biz-how" id="how">
         <div className="wrap">
           <ProcessSteps
             title={c.process.title}
-            intro={c.process.intro}
+            subtitle={c.process.subtitle}
             steps={c.process.steps}
             variant="column"
             eventsStyle
           />
         </div>
+        <SpinBookDate href="#contact" />
       </section>
 
       <section className="blk events-section">
         <div className="wrap">
-          <EventPackages title={c.packages.title} items={c.packages.items} centered />
+          <EventPackages
+            title={c.packages.title}
+            items={c.packages.items}
+            closingPrompt={c.packages.closingPrompt}
+            centered
+          />
         </div>
       </section>
 

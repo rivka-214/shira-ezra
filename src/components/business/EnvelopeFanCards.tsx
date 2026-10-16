@@ -1,79 +1,56 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties, type RefObject } from 'react'
 import { useReducedMotion } from '../../motion/useReducedMotion'
 
 type Item = { title: string; text: string }
 
 type Props = {
   items: Item[]
-  active: boolean
+  /** Scroll pin that drives open 0→1; page content below only after fully open. */
+  pinRef: RefObject<HTMLElement | null>
 }
-
-const HOLD_CLOSED_MS = 3000
 
 function clamp(n: number, min: number, max: number) {
   return Math.min(max, Math.max(min, n))
 }
 
-export function EnvelopeFanCards({ items, active }: Props) {
+export function EnvelopeFanCards({ items, pinRef }: Props) {
   const reduceMotion = useReducedMotion()
-  const rootRef = useRef<HTMLDivElement>(null)
   const [lifted, setLifted] = useState<number | null>(null)
   const [openAmount, setOpenAmount] = useState(0)
   const mid = (items.length - 1) / 2
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (reduceMotion || window.matchMedia('(max-width: 860px)').matches) {
       setOpenAmount(1)
       return
     }
-    if (!active) {
-      setOpenAmount(0)
-      return
-    }
 
-    let unlocked = false
-    let unlockScroll = 0
-    let maxOpen = 0
     let frame = 0
-    let timer = 0
-
-    const measure = () => {
-      if (!unlocked) {
-        setOpenAmount(0)
-        return
-      }
-      const vh = window.innerHeight || 1
-      const span = Math.max(vh * 0.32, 160)
-      const next = clamp((window.scrollY - unlockScroll) / span, 0, 1)
-      maxOpen = Math.max(maxOpen, next)
-      setOpenAmount((prev) => (Math.abs(prev - maxOpen) < 0.008 ? prev : maxOpen))
+    const update = () => {
+      frame = 0
+      const pin = pinRef.current
+      if (!pin) return
+      const rect = pin.getBoundingClientRect()
+      const range = Math.max(pin.offsetHeight - window.innerHeight, 1)
+      // 0 while approaching; 1 only after scrolling through the full pin runway.
+      const next = clamp(-rect.top / range, 0, 1)
+      setOpenAmount((prev) => (Math.abs(prev - next) < 0.004 ? prev : next))
     }
 
     const onScroll = () => {
       if (frame) return
-      frame = requestAnimationFrame(() => {
-        frame = 0
-        measure()
-      })
+      frame = requestAnimationFrame(update)
     }
 
-    // Stay fully closed for 3s after the section is on screen.
-    timer = window.setTimeout(() => {
-      unlocked = true
-      unlockScroll = window.scrollY
-      measure()
-    }, HOLD_CLOSED_MS)
-
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onScroll)
-
     return () => {
-      window.clearTimeout(timer)
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
       if (frame) cancelAnimationFrame(frame)
     }
-  }, [active, reduceMotion])
+  }, [pinRef, reduceMotion])
 
   const opened = openAmount > 0.04
 
@@ -81,7 +58,6 @@ export function EnvelopeFanCards({ items, active }: Props) {
     <div
       className={opened ? 'envelope-fan is-open' : 'envelope-fan'}
       aria-label="מעטפת השירות"
-      ref={rootRef}
       style={{ '--fan-open': openAmount } as CSSProperties}
     >
       <div className="envelope-fan-stage">

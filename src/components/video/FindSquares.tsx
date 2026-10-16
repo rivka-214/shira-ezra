@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { prefersReducedMotion } from '../../motion/useReducedMotion'
+import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react'
+import { prefersReducedMotion, useReducedMotion } from '../../motion/useReducedMotion'
 import { FindCategoryIcon, type FindCategoryIconName } from './FindCategoryIcon'
 
 type Category = {
@@ -13,8 +13,68 @@ type Props = {
   iconsActive: boolean
 }
 
+const TILT_MAX = 10
+
 function pagesOf(categories: Category[]) {
   return categories.length ? [categories] : []
+}
+
+function FindSquareCard({
+  cat,
+  index,
+  iconsActive,
+  reduceMotion,
+}: {
+  cat: Category
+  index: number
+  iconsActive: boolean
+  reduceMotion: boolean
+}) {
+  const cardRef = useRef<HTMLElement>(null)
+
+  const resetTilt = () => {
+    const card = cardRef.current
+    if (!card) return
+    card.style.setProperty('--find-rx', '0deg')
+    card.style.setProperty('--find-ry', '0deg')
+    card.classList.remove('is-tilting')
+  }
+
+  const onMove = (event: MouseEvent<HTMLElement>) => {
+    if (reduceMotion) return
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const px = ((event.clientX - rect.left) / rect.width) * 2 - 1
+    const py = ((event.clientY - rect.top) / rect.height) * 2 - 1
+    card.style.setProperty('--find-rx', `${(-py * TILT_MAX).toFixed(2)}deg`)
+    card.style.setProperty('--find-ry', `${(px * TILT_MAX).toFixed(2)}deg`)
+    card.classList.add('is-tilting')
+  }
+
+  return (
+    <article
+      className="find-square"
+      ref={cardRef}
+      style={
+        {
+          ['--find-rx' as string]: '0deg',
+          ['--find-ry' as string]: '0deg',
+        } as CSSProperties
+      }
+      onMouseMove={onMove}
+      onMouseLeave={resetTilt}
+      onBlur={resetTilt}
+    >
+      <FindCategoryIcon
+        name={cat.icon as FindCategoryIconName}
+        active={iconsActive}
+        delay={index * 0.1}
+      />
+      <h3>{cat.title}</h3>
+      <p>{cat.text}</p>
+    </article>
+  )
 }
 
 /** All category squares in one row. */
@@ -24,6 +84,7 @@ export function FindSquares({ categories, iconsActive }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const pages = pagesOf(categories)
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     const section = sectionRef.current
@@ -239,15 +300,13 @@ export function FindSquares({ categories, iconsActive }: Props) {
             {pages.map((page) => (
               <div className="find-scroll-page" key={page.map((cat) => cat.title).join('|')}>
                 {page.map((cat, index) => (
-                  <article className="find-square" key={cat.title}>
-                    <FindCategoryIcon
-                      name={cat.icon as FindCategoryIconName}
-                      active={iconsActive}
-                      delay={index * 0.1}
-                    />
-                    <h3>{cat.title}</h3>
-                    <p>{cat.text}</p>
-                  </article>
+                  <FindSquareCard
+                    key={cat.title}
+                    cat={cat}
+                    index={index}
+                    iconsActive={iconsActive}
+                    reduceMotion={reduceMotion}
+                  />
                 ))}
               </div>
             ))}

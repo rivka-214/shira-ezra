@@ -32,7 +32,6 @@ export const domainEntries: {
     label: 'וידאו',
     path: routes.video,
     jumps: [
-      { label: 'דוגמאות', hash: 'works' },
       { label: 'למה איתי', hash: 'why' },
       { label: 'המלצות', hash: 'reviews' },
       { label: 'בואו נתקדם', hash: 'contact' },
@@ -43,7 +42,6 @@ export const domainEntries: {
     label: 'תדמית ועסקים',
     path: routes.business,
     jumps: [
-      { label: 'דוגמאות', hash: 'works' },
       { label: 'המלצות', hash: 'reviews' },
       { label: 'איך זה עובד', hash: 'how' },
       { label: 'בואו נתקדם', hash: 'contact' },
@@ -54,7 +52,6 @@ export const domainEntries: {
     label: 'אירועים',
     path: routes.events,
     jumps: [
-      { label: 'דוגמאות', hash: 'works' },
       { label: 'המלצות', hash: 'reviews' },
       { label: 'איך זה עובד', hash: 'how' },
       { label: 'בואו נתקדם', hash: 'contact' },

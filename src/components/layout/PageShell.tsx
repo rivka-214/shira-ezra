@@ -6,9 +6,11 @@ import { SiteHeader } from './SiteHeader'
 type Props = {
   children: ReactNode
   home?: boolean
+  /** Full-page brand mesh gradient (like the video hero). */
+  mesh?: boolean
 }
 
-export function PageShell({ children, home = false }: Props) {
+export function PageShell({ children, home = false, mesh = false }: Props) {
   const location = useLocation()
 
   useEffect(() => {
@@ -23,8 +25,12 @@ export function PageShell({ children, home = false }: Props) {
     return () => window.clearTimeout(timer)
   }, [location.pathname, location.hash])
 
+  const rootClass = [home ? 'app home-app' : 'app', mesh ? 'app-mesh' : '']
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div className={home ? 'app home-app' : 'app'}>
+    <div className={rootClass}>
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />

@@ -244,100 +244,7 @@
   background-image: linear-gradient(90deg, #6ee943 0%, #63d17a 42%, #b8ffb0 100%);
 }
 
-/* Sticky why — video page */
-.why-sticky {
-  display: grid;
-  gap: 28px;
-}
-
-@media (min-width: 861px) {
-  .why-sticky {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(36px, 4vw, 64px);
-    align-items: start;
-  }
-
-  .why-sticky-side {
-    position: sticky;
-    top: 96px;
-  }
-}
-
-.why-sticky-panels {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(36px, 5.4vh, 60px);
-  padding-inline-start: clamp(72px, 18vw, 120px);
-}
-
-.why-sticky-panel {
-  --row-in: 0;
-  position: relative;
-  padding-inline-start: 22px;
-}
-
-.why-sticky-panel::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0.15em;
-  bottom: 0.15em;
-  width: 3px;
-  border-radius: 3px;
-  background: var(--lime);
-  opacity: var(--row-in);
-}
-
-.why-sticky-copy {
-  opacity: var(--row-in);
-  transform: translate3d(0, calc((1 - var(--row-in)) * 18px), 0);
-}
-
-.why-check {
-  --check-draw: 0;
-  --check-scale: 0.96;
-  position: absolute;
-  inset-inline-start: calc(-1 * clamp(78px, 16vw, 112px));
-  top: -0.55em;
-  width: clamp(64px, 15vw, 90px);
-  height: clamp(64px, 15vw, 90px);
-  display: block;
-  pointer-events: none;
-  opacity: clamp(0, calc(var(--check-draw) * 3.2), 1);
-}
-
-.why-check svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  transform: scale(var(--check-scale));
-  transform-origin: 28% 72%;
-}
-
-.why-check path {
-  fill: none;
-  stroke: var(--lime);
-  stroke-width: 6.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--check-draw));
-}
-
-.why-sticky-panel h3 {
-  margin-bottom: 0.45em;
-}
-
-.why-sticky-panel p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
-}
-
-.why-block .why-sticky .find-rise {
-  opacity: 1;
-}
+/* Why open cards — video page (light surface + lime checks) */
 
 /* Produced works — scroll expand */
 .produced-scroll {
@@ -349,10 +256,15 @@
   width: min(720px, 100%);
   margin-inline: auto;
   border-radius: 14px;
-  overflow: hidden;
+  overflow: visible;
   transform: scale(var(--produced-scale));
   transform-origin: center top;
   transition: transform 0.08s linear;
+  box-shadow: 0 24px 48px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.produced-feature .video-frame {
+  border-radius: 14px;
   box-shadow: 0 24px 48px color-mix(in srgb, var(--ink) 12%, transparent);
 }
 
@@ -711,18 +623,26 @@
     animation: none;
   }
 
-  .why-sticky-panel {
-    --row-in: 1;
+  .why-open.is-in .why-open-pane {
+    animation: none;
   }
 
-  .why-sticky-copy {
+  .why-open-pane,
+  .why-open-pane p,
+  .why-open-check,
+  .why-open-check-ring,
+  .why-open-check-mark {
+    transition: none;
+  }
+
+  .why-open-pane.is-active p {
     opacity: 1;
+    max-height: none;
     transform: none;
   }
 
-  .why-check {
-    --check-draw: 1;
-    --check-scale: 1;
+  .why-open-pane.is-active .why-open-check-mark {
+    stroke-dashoffset: 0;
     opacity: 1;
   }
 

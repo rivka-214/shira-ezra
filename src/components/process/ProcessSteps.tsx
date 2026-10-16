@@ -7,6 +7,7 @@ type Step = { title: string; text: string }
 
 type Props = {
   title: string
+  subtitle?: string
   intro?: string
   steps: Step[]
   variant?: 'column' | 'row'
@@ -14,7 +15,14 @@ type Props = {
   eventsStyle?: boolean
 }
 
-export function ProcessSteps({ title, intro, steps, variant = 'column', eventsStyle = false }: Props) {
+export function ProcessSteps({
+  title,
+  subtitle,
+  intro,
+  steps,
+  variant = 'column',
+  eventsStyle = false,
+}: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const railRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
@@ -101,6 +109,11 @@ export function ProcessSteps({ title, intro, steps, variant = 'column', eventsSt
   return (
     <div className={processClass} ref={blockRef}>
       <RevealHeading>{title}</RevealHeading>
+      {subtitle ? (
+        <FadeUp delay={0.04}>
+          <p className="process-subtitle">{subtitle}</p>
+        </FadeUp>
+      ) : null}
       {intro ? (
         <FadeUp delay={0.06}>
           <p className="lead">{intro}</p>

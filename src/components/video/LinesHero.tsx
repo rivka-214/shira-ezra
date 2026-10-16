@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useReducedMotion } from '../../motion/useReducedMotion'
+import { SparkTrail } from './SparkTrail'
 
 type Props = {
   children: ReactNode
@@ -8,10 +9,31 @@ type Props = {
   label?: string
   /** Allow clicks/hover on children while still warping lines under the pointer. */
   interactive?: boolean
+  /** Mesh grain backdrop — knocks out white so lines float over the brand gradient. */
+  tone?: 'light' | 'mesh'
+  /** Scale artwork to fill the section edge-to-edge (no side gaps). */
+  cover?: boolean
+  /** Keep the line artwork (and mouse warp) even on mesh tone. */
+  showLines?: boolean
 }
 
 const VIEW_W = 1600
 const VIEW_H = 900
+
+function knockOutWhite(sctx: CanvasRenderingContext2D, w: number, h: number) {
+  const frame = sctx.getImageData(0, 0, w, h)
+  const data = frame.data
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i]
+    const g = data[i + 1]
+    const b = data[i + 2]
+    const bright = (r + g + b) / 3
+    if (bright > 232 && Math.max(r, g, b) - Math.min(r, g, b) < 28) {
+      data[i + 3] = 0
+    }
+  }
+  sctx.putImageData(frame, 0, 0)
+}
 
 /** Mouse-local warp over the real artwork — lines drift aside under the cursor. */
 export function LinesHero({
@@ -20,21 +42,28 @@ export function LinesHero({
   contentClassName,
   label = 'עולם של וידאו',
   interactive = false,
+  tone = 'light',
+  cover = false,
+  showLines = false,
 }: Props) {
   const reduce = useReducedMotion()
   const wrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const mesh = tone === 'mesh'
+  /** Line artwork only when explicitly requested — mesh heroes stay gradient-only. */
+  const linesOn = Boolean(showLines)
 
   useEffect(() => {
+    if (!linesOn) return
     const canvas = canvasRef.current
     const wrap = wrapRef.current
     if (!canvas || !wrap) return
 
-    const ctx = canvas.getContext('2d', { alpha: false, willReadFrequently: true })
+    const ctx = canvas.getContext('2d', { alpha: true, willReadFrequently: true })
     if (!ctx) return
 
     const source = document.createElement('canvas')
-    const sctx = source.getContext('2d', { alpha: false, willReadFrequently: true })
+    const sctx = source.getContext('2d', { alpha: true, willReadFrequently: true })
     if (!sctx) return
 
     const img = new Image()
@@ -47,6 +76,18 @@ export function LinesHero({
     let raf = 0
     let layout = { w: 1, h: 1, drawW: 1, drawH: 1, ox: 0, oy: 0 }
 
+    const rebuildSource = () => {
+      const { drawW, drawH } = layout
+      sctx.clearRect(0, 0, drawW, drawH)
+      if (!mesh) {
+        sctx.fillStyle = '#fff'
+        sctx.fillRect(0, 0, drawW, drawH)
+      }
+      if (!ready) return
+      sctx.drawImage(img, 0, 0, drawW, drawH)
+      if (mesh) knockOutWhite(sctx, drawW, drawH)
+    }
+
     const fit = () => {
       const rect = wrap.getBoundingClientRect()
       const w = Math.max(1, Math.round(rect.width))
@@ -54,7 +95,9 @@ export function LinesHero({
       canvas.width = w
       canvas.height = h
 
-      const scale = Math.min(w / VIEW_W, h / VIEW_H)
+      const scale = cover
+        ? Math.max(w / VIEW_W, h / VIEW_H)
+        : Math.min(w / VIEW_W, h / VIEW_H)
       const drawW = Math.round(VIEW_W * scale)
       const drawH = Math.round(VIEW_H * scale)
       const ox = Math.round((w - drawW) / 2)
@@ -62,16 +105,16 @@ export function LinesHero({
 
       source.width = drawW
       source.height = drawH
-      sctx.fillStyle = '#fff'
-      sctx.fillRect(0, 0, drawW, drawH)
-      if (ready) sctx.drawImage(img, 0, 0, drawW, drawH)
-
       layout = { w, h, drawW, drawH, ox, oy }
+      rebuildSource()
     }
 
     const paintStatic = () => {
-      ctx.fillStyle = '#fff'
-      ctx.fillRect(0, 0, layout.w, layout.h)
+      ctx.clearRect(0, 0, layout.w, layout.h)
+      if (!mesh) {
+        ctx.fillStyle = '#fff'
+        ctx.fillRect(0, 0, layout.w, layout.h)
+      }
       if (ready) ctx.drawImage(source, layout.ox, layout.oy)
     }
 
@@ -117,7 +160,7 @@ export function LinesHero({
             od[i] = bd[i]
             od[i + 1] = bd[i + 1]
             od[i + 2] = bd[i + 2]
-            od[i + 3] = 255
+            od[i + 3] = bd[i + 3]
             continue
           }
 
@@ -135,7 +178,7 @@ export function LinesHero({
           od[i] = bd[si]
           od[i + 1] = bd[si + 1]
           od[i + 2] = bd[si + 2]
-          od[i + 3] = 255
+          od[i + 3] = bd[si + 3]
         }
       }
 
@@ -186,16 +229,25 @@ export function LinesHero({
       window.removeEventListener('resize', onResize)
       ro?.disconnect()
     }
-  }, [reduce])
+  }, [reduce, mesh, cover, linesOn])
 
-  const rootClass = ['lines-hero', interactive ? 'is-interactive' : '', className]
+  const rootClass = [
+    'lines-hero',
+    mesh ? 'lines-hero-mesh' : '',
+    linesOn ? 'lines-hero-show-lines' : 'lines-hero-no-lines',
+    interactive ? 'is-interactive' : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ')
   const bodyClass = ['lines-hero-content', contentClassName].filter(Boolean).join(' ')
 
   return (
     <section className={rootClass} aria-label={label} ref={wrapRef}>
-      <canvas className="lines-hero-canvas" ref={canvasRef} aria-hidden="true" />
+      {linesOn ? (
+        <canvas className="lines-hero-canvas" ref={canvasRef} aria-hidden="true" />
+      ) : null}
+      {mesh ? <SparkTrail /> : null}
       <div className={bodyClass}>{children}</div>
     </section>
   )
