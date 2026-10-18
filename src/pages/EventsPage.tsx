@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BlockedStamp } from '../components/events/BlockedStamp'
+import { BlockedStamp, eventsBlockedMail } from '../components/events/BlockedStamp'
 import { ConfettiBurst } from '../components/events/ConfettiBurst'
 import { SpinBookDate } from '../components/events/SpinBookDate'
 import { MediaGallery } from '../components/gallery/MediaGallery'
@@ -93,7 +93,7 @@ export function EventsPage() {
             previewCount={c.works.length}
             scrollGallery
           />
-          <BlockedStamp />
+          <BlockedStamp subject={eventsBlockedMail.subject} body={eventsBlockedMail.body} />
         </div>
       </section>
 

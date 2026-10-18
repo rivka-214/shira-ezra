@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { site } from '../../data/site'
+import { Link } from 'react-router-dom'
+import { routes, site } from '../../data/site'
 import { clients } from '../../data/clients'
 import { ClientLogos } from '../clients/ClientLogos'
 import { ContactForm } from '../contact/ContactForm'
@@ -96,6 +97,12 @@ export function SiteFooter() {
             </div>
             <ContactForm />
           </div>
+          <p className="footer-legal">
+            <Link to={routes.privacy}>מדיניות פרטיות</Link>
+          </p>
+          <p className="footer-credit">
+            עוצב ופותח עם הרבה ס״ד וכיף יחד עם אחותי המתכנתת 🙂
+          </p>
         </div>
       </div>
     </footer>

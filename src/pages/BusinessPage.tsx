@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import { EnvelopeFanCards } from '../components/business/EnvelopeFanCards'
 import { useInView } from '../motion/useInView'
+import { BlockedStamp, businessBlockedMail } from '../components/events/BlockedStamp'
 import { MediaGallery } from '../components/gallery/MediaGallery'
 import { PageShell } from '../components/layout/PageShell'
 import { ProcessSteps } from '../components/process/ProcessSteps'
@@ -192,9 +193,14 @@ export function BusinessPage() {
         </div>
       </section>
 
-      <section className="blk" id="works">
-        <div className="wrap">
+      <section className="blk biz-works" id="works">
+        <div className="wrap biz-works-wrap">
           <MediaGallery title={c.worksTitle} videos={c.works} previewCount={c.works.length} />
+          <BlockedStamp
+            className="blocked-stamp-biz"
+            subject={businessBlockedMail.subject}
+            body={businessBlockedMail.body}
+          />
         </div>
       </section>
 

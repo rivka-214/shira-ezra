@@ -17,6 +17,7 @@ export const routes = {
   video: '/video',
   business: '/business',
   events: '/events',
+  privacy: '/privacy',
 } as const
 
 export type DomainKey = 'video' | 'business' | 'events'

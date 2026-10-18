@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import { ConstructionNotice } from './components/layout/ConstructionNotice'
+import { CookieBanner } from './components/layout/CookieBanner'
 import { PageTransition } from './components/motion/PageTransition'
 import { BusinessPage } from './pages/BusinessPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
+import { PrivacyPage } from './pages/PrivacyPage'
 import { VideoPage } from './pages/VideoPage'
 
 function RouteWipe() {
@@ -28,12 +30,14 @@ export default function App() {
     <BrowserRouter>
       <RouteWipe />
       <ConstructionNotice />
+      <CookieBanner />
       <PageTransition>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/video" element={<VideoPage />} />
           <Route path="/business" element={<BusinessPage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
         </Routes>
       </PageTransition>
     </BrowserRouter>
