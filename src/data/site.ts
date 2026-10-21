@@ -9,7 +9,7 @@ export const site = {
   contactEmailLabel: 'מייל',
   logoSrc: '/brand/logo.png',
   logoAnimatedSrc: '/brand/logo-animated.gif?v=3',
-  showreelYoutubeId: 'sv9sXoJ1pp8',
+  showreelYoutubeId: '6PpfDWV3g1U',
 } as const
 
 export const routes = {
