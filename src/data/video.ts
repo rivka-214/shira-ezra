@@ -52,7 +52,7 @@ export const videoContent = {
       { url: 'https://www.youtube.com/watch?v=Lwoi4O0KNT8', title: 'שני ילדים ומצלמה 1' },
       {
         url: 'https://www.youtube.com/watch?v=sv9sXoJ1pp8',
-        title: 'שנשתוקק – יסראל סוסנה וחורב רעננה',
+        title: 'שנשתוקק – ישראל סוסנה',
       },
       { url: 'https://www.youtube.com/watch?v=xHbGyWeHLQA', title: 'קליפ כוחה של תורה' },
       { url: 'https://www.youtube.com/watch?v=CrE4tSO95mQ', title: 'שיר מילים שונות' },
