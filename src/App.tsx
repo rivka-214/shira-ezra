@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { AccessibilityWidget } from './components/layout/AccessibilityWidget'
 import { ConstructionNotice } from './components/layout/ConstructionNotice'
 import { CookieBanner } from './components/layout/CookieBanner'
 import { PageTransition } from './components/motion/PageTransition'
@@ -31,6 +32,7 @@ export default function App() {
       <RouteWipe />
       <ConstructionNotice />
       <CookieBanner />
+      <AccessibilityWidget />
       <PageTransition>
         <Routes>
           <Route path="/" element={<HomePage />} />
