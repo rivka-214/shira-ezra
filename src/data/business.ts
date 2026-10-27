@@ -55,6 +55,7 @@ export const businessContent = {
     { url: 'https://www.youtube.com/watch?v=DbUjXbvmoqE', title: 'סרטון סטטוס רבקי אביטל' },
     { url: 'https://www.youtube.com/watch?v=AP2DUBeeeJE', title: 'דסי לוי מאחורי הקלעים' },
     { url: 'https://www.youtube.com/watch?v=sBK5kAZ7wT0', title: 'רבקי אביטל טיזר סמינר עסקי 1' },
+    { url: 'https://www.youtube.com/watch?v=b0HJ_WuSS8Y', title: 'סרטון סושיאל הודיה ביסמוט' },
     { url: 'https://www.youtube.com/watch?v=OZV6N2tciuE', title: 'סרטון שיווק לסטטוס 3' },
     { url: 'https://www.youtube.com/watch?v=2M_JjPbMZa8', title: 'סרטון שיווק לסטטוס 1' },
     { url: 'https://www.youtube.com/watch?v=uWGo-Sx6J7c', title: 'סרטון שיווק לסטטוס 2' },
