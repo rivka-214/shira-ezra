@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from 'react'
+import { sendLead } from '../../lib/sendLead'
 
 type Status = 'idle' | 'sending' | 'success' | 'error' | 'send-error'
-
-const WEB3FORMS_URL = 'https://api.web3forms.com/submit'
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>('idle')
@@ -25,35 +24,14 @@ export function ContactForm() {
       setStatus('error')
       return
     }
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
-    if (!accessKey) {
+    setStatus('sending')
+    const sent = await sendLead({ form: 'contact', name, phone, email, message })
+    if (!sent) {
       setStatus('send-error')
       return
     }
-    setStatus('sending')
-    try {
-      const res = await fetch(WEB3FORMS_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: accessKey,
-          subject: 'פנייה מהאתר',
-          name,
-          phone,
-          email: email || undefined,
-          message: message || '(ללא הודעה נוספת)',
-        }),
-      })
-      const json = (await res.json()) as { success?: boolean }
-      if (!res.ok || !json.success) {
-        setStatus('send-error')
-        return
-      }
-      setStatus('success')
-      form.reset()
-    } catch {
-      setStatus('send-error')
-    }
+    setStatus('success')
+    form.reset()
   }
 
   return (

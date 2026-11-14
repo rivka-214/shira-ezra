@@ -1,58 +1,12 @@
 import { useId, useState, type FormEvent } from 'react'
 import { marathonContent as c } from '../../data/marathon'
+import { fileToAttachment, MAX_ATTACHMENT_BYTES, sendLead } from '../../lib/sendLead'
 
-type Status = 'idle' | 'sending' | 'success' | 'success-no-file' | 'error' | 'file-error' | 'send-error'
+type Status = 'idle' | 'sending' | 'success' | 'error' | 'file-error' | 'send-error'
 
-/** Same service and key as the site's main contact form (ContactForm). */
-const WEB3FORMS_URL = 'https://api.web3forms.com/submit'
 const ACCEPT = 'image/png,image/jpeg,image/gif,image/webp'
-const MAX_FILE_BYTES = 5_000_000
 
-type Fields = {
-  name: string
-  business: string
-  email: string
-  phone: string
-  plan: string
-}
-
-function messageBody(f: Fields, fileName: string) {
-  return [
-    'פנייה חדשה ממרתון הנפשות',
-    '',
-    `שם: ${f.name}`,
-    `שם העסק: ${f.business}`,
-    `מייל: ${f.email}`,
-    `טלפון: ${f.phone}`,
-    `המסלול: ${f.plan}`,
-    `לוגו / חתימה: ${fileName || 'לא צורף'}`,
-  ].join('\n')
-}
-
-async function submit(accessKey: string, f: Fields, file: File | null): Promise<boolean> {
-  const payload = new FormData()
-  payload.append('access_key', accessKey)
-  payload.append('subject', `מרתון הנפשות — ${f.name} — ${f.business}`)
-  payload.append('from_name', f.name)
-  payload.append('replyto', f.email)
-  payload.append('name', f.name)
-  payload.append('business', f.business)
-  payload.append('email', f.email)
-  payload.append('phone', f.phone)
-  payload.append('plan', f.plan)
-  payload.append('message', messageBody(f, file?.name ?? ''))
-  if (file) payload.append('attachment', file)
-
-  const res = await fetch(WEB3FORMS_URL, {
-    method: 'POST',
-    headers: { Accept: 'application/json' },
-    body: payload,
-  })
-  const json = (await res.json().catch(() => ({}))) as { success?: boolean }
-  return res.ok && Boolean(json.success)
-}
-
-/** Sends the marathon lead straight to Shira's inbox via Web3Forms, like the main contact form. */
+/** Sends the marathon lead (with the logo attached) to Shira through /api/contact. */
 export function MarathonForm() {
   const id = useId()
   const [status, setStatus] = useState<Status>('idle')
@@ -71,47 +25,45 @@ export function MarathonForm() {
       return
     }
 
-    const fields: Fields = {
-      name: text('name'),
-      business: text('business'),
-      email: text('email'),
-      phone: text('phone'),
-      plan: text('plan') || c.form.planDefault,
-    }
-    if (!fields.name || !fields.phone || !fields.email) {
+    const name = text('name')
+    const email = text('email')
+    const phone = text('phone')
+    if (!name || !phone || !email) {
       setStatus('error')
       return
     }
 
     const picked = data.get('attachment')
     const file = picked instanceof File && picked.size > 0 ? picked : null
-    if (file && file.size > MAX_FILE_BYTES) {
+    if (file && file.size > MAX_ATTACHMENT_BYTES) {
       setStatus('file-error')
       return
     }
 
-    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
-    if (!accessKey) {
+    setStatus('sending')
+    let attachment
+    try {
+      attachment = file ? await fileToAttachment(file) : undefined
+    } catch {
+      setStatus('file-error')
+      return
+    }
+    const sent = await sendLead({
+      form: 'marathon',
+      name,
+      phone,
+      email,
+      business: text('business'),
+      plan: text('plan') || c.form.planDefault,
+      attachment,
+    })
+    if (!sent) {
       setStatus('send-error')
       return
     }
-
-    setStatus('sending')
-    try {
-      if (await submit(accessKey, fields, file)) {
-        setStatus('success')
-      } else if (file && (await submit(accessKey, fields, null))) {
-        // File uploads need a paid Web3Forms plan; the details still reach Shira without it.
-        setStatus('success-no-file')
-      } else {
-        setStatus('send-error')
-        return
-      }
-      form.reset()
-      setFileName('')
-    } catch {
-      setStatus('send-error')
-    }
+    setStatus('success')
+    form.reset()
+    setFileName('')
   }
 
   return (
@@ -184,7 +136,7 @@ export function MarathonForm() {
           onChange={(e) => {
             const next = e.currentTarget.files?.[0]
             setFileName(next?.name ?? '')
-            if (next && next.size > MAX_FILE_BYTES) setStatus('file-error')
+            if (next && next.size > MAX_ATTACHMENT_BYTES) setStatus('file-error')
             else if (status === 'file-error') setStatus('idle')
           }}
         />
@@ -195,11 +147,6 @@ export function MarathonForm() {
       {status === 'success' ? (
         <p className="mr-form-msg is-ok" role="status">
           {c.form.success}
-        </p>
-      ) : null}
-      {status === 'success-no-file' ? (
-        <p className="mr-form-msg is-ok" role="status">
-          {c.form.successNoFile}
         </p>
       ) : null}
       {status === 'error' ? (
