@@ -12,7 +12,11 @@
  */
 
 const RESEND_URL = 'https://api.resend.com/emails'
-const DEFAULT_TO = 'Sh0548445344@gmail.com'
+/**
+ * Lowercase on purpose: until a domain is verified, Resend only delivers to the account
+ * owner's address and compares it case-sensitively ("Sh…" was rejected with a 403).
+ */
+const DEFAULT_TO = 'sh0548445344@gmail.com'
 const DEFAULT_FROM = 'האתר של שירה עזרא <onboarding@resend.dev>'
 
 /** Vercel rejects request bodies over 4.5MB; base64 adds about a third. */
@@ -160,7 +164,7 @@ export async function POST(request: Request): Promise<Response> {
   const { subject, html, text } = buildEmail(lead)
   const payload: Record<string, unknown> = {
     from: process.env.CONTACT_FROM_EMAIL || DEFAULT_FROM,
-    to: [process.env.CONTACT_TO_EMAIL || DEFAULT_TO],
+    to: [(process.env.CONTACT_TO_EMAIL || DEFAULT_TO).trim().toLowerCase()],
     subject,
     html,
     text,
