@@ -137,7 +137,8 @@ function buildEmail(lead: Lead) {
 }
 
 export async function POST(request: Request): Promise<Response> {
-  const apiKey = process.env.RESEND_API_KEY
+  // Trim: a key pasted into a dashboard often carries a stray space or newline.
+  const apiKey = process.env.RESEND_API_KEY?.trim()
   if (!apiKey) {
     console.error('[contact] RESEND_API_KEY is not set')
     return json(500, { ok: false, error: 'not-configured' })
@@ -176,8 +177,17 @@ export async function POST(request: Request): Promise<Response> {
       body: JSON.stringify(payload),
     })
     if (!res.ok) {
-      console.error('[contact] Resend rejected the email', res.status, await res.text())
-      return json(502, { ok: false, error: 'send-failed' })
+      const detail = await res.text()
+      console.error('[contact] Resend rejected the email', res.status, detail)
+      // Resend's short error type (e.g. "validation_error", "invalid_api_key") helps diagnose
+      // configuration problems from the browser without exposing anything sensitive.
+      let reason = 'unknown'
+      try {
+        reason = String((JSON.parse(detail) as { name?: unknown }).name ?? 'unknown')
+      } catch {
+        // not JSON
+      }
+      return json(502, { ok: false, error: 'send-failed', reason, status: res.status })
     }
     return json(200, { ok: true })
   } catch (error) {
