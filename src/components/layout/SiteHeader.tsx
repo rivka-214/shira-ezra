@@ -1,7 +1,12 @@
-import { Link, NavLink } from 'react-router-dom'
-import { domainEntries, site } from '../../data/site'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import { domainEntries, routes, site } from '../../data/site'
+
+/** The marathon page has its own form instead of the shared footer's #contact. */
+const contactHashFor = (pathname: string) =>
+  pathname === routes.marathon ? '#marathon-form' : '#contact'
 
 export function SiteHeader() {
+  const { pathname } = useLocation()
   return (
     <header className="site-header">
       <div className="wrap header-inner">
@@ -16,7 +21,7 @@ export function SiteHeader() {
               </NavLink>
             ))}
           </nav>
-          <a className="btn btn-lime header-cta" href="#contact">
+          <a className="btn btn-lime header-cta" href={contactHashFor(pathname)}>
             דברו איתי
           </a>
         </div>

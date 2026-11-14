@@ -17,10 +17,11 @@ export const routes = {
   video: '/video',
   business: '/business',
   events: '/events',
+  marathon: '/marathon',
   privacy: '/privacy',
 } as const
 
-export type DomainKey = 'video' | 'business' | 'events'
+export type DomainKey = 'video' | 'business' | 'events' | 'marathon'
 
 export const domainEntries: {
   key: DomainKey
@@ -56,6 +57,17 @@ export const domainEntries: {
       { label: 'המלצות', hash: 'reviews' },
       { label: 'איך זה עובד', hash: 'how' },
       { label: 'בואו נתקדם', hash: 'contact' },
+    ],
+  },
+  {
+    key: 'marathon',
+    label: 'מרתון הנפשות',
+    path: routes.marathon,
+    jumps: [
+      { label: 'איך זה עובד', hash: 'how' },
+      { label: 'חתימות שהונפשו', hash: 'works' },
+      { label: 'מחירון', hash: 'packages' },
+      { label: 'בואי נתחיל', hash: 'marathon-form' },
     ],
   },
 ]

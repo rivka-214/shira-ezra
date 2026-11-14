@@ -5,6 +5,7 @@ const homePills = [
   { label: 'וידאו', path: routes.video },
   { label: 'תדמית ועסקים', path: routes.business },
   { label: 'אירועים', path: routes.events },
+  { label: 'מרתון הנפשות', path: routes.marathon },
 ] as const
 
 export function DomainEntry() {

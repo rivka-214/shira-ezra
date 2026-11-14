@@ -1,0 +1,1119 @@
+/* Marathon landing (/marathon) — ported from shira-landing-v6. Everything is scoped under .mr. */
+
+.mr {
+  --mr-ink: #150440;
+  --mr-blue: #301ab3;
+  --mr-lime: #6ee943;
+  --mr-violet: #6531e9;
+  --mr-periwinkle: #6762eb;
+  --mr-soft: #f4f3ff;
+  --mr-muted: #45405c;
+  --mr-muted-dark: #d4d1e8;
+  --g1: var(--mr-lime);
+  --g2: var(--mr-periwinkle);
+
+  position: relative;
+  direction: rtl;
+  overflow: hidden;
+  background: var(--mr-soft);
+  color: var(--mr-ink);
+  font-weight: 300;
+}
+
+.mr section {
+  position: relative;
+  scroll-margin-top: 84px;
+}
+
+.mr h1,
+.mr h2,
+.mr h3 {
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+}
+
+.mr a {
+  text-decoration: none;
+}
+
+.mr-center {
+  text-align: center;
+}
+
+.mr-narrow {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.mr-mid {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.mr-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.mr-xwide {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.mr-sec {
+  padding: 88px 24px;
+}
+
+.mr-dark {
+  background: var(--mr-ink);
+  color: #fff;
+}
+
+.mr-tex {
+  background-image: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 14px);
+}
+
+.mr-texl {
+  background-image: repeating-linear-gradient(115deg, rgba(27, 22, 48, 0.04) 0 1px, transparent 1px 14px);
+}
+
+/* ---------- Buttons ---------- */
+
+.mr-btn {
+  display: inline-block;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 16px 32px;
+  border: 0;
+  border-radius: 99px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.mr-btn:hover {
+  transform: translateY(-3px) scale(1.09);
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3);
+}
+
+.mr-btn:focus-visible {
+  outline: 3px solid rgba(110, 233, 67, 0.7);
+  outline-offset: 3px;
+}
+
+.mr-btn-lime {
+  background: var(--mr-lime);
+  color: var(--mr-ink);
+}
+
+.mr-btn-ink {
+  background: var(--mr-ink);
+  color: #fff;
+}
+
+.mr-btn-block {
+  display: block;
+  padding: 16px;
+  text-align: center;
+}
+
+.mr-btn-block:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+.mr-btn-lg {
+  min-height: 48px;
+  padding: 18px;
+  font-size: 19px;
+}
+
+/* ---------- Headings ---------- */
+
+.mr-h2 {
+  margin: 0 0 22px;
+  font-size: clamp(28px, 4.4vw, 44px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.mr-uline::after {
+  content: '';
+  display: block;
+  width: 84px;
+  height: 5px;
+  margin: 16px auto 0;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--g1), var(--g2), var(--g1));
+  background-size: 200% 100%;
+  transform-origin: right;
+  animation: mr-fillbar 4.5s ease-in-out infinite;
+}
+
+.mr-grad-text {
+  background: linear-gradient(90deg, var(--mr-lime), var(--mr-periwinkle));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mr-gfill {
+  font-weight: 800;
+  color: var(--mr-blue);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(
+    135deg,
+    #301ab3 0%,
+    #301ab3 33%,
+    #6ee943 34%,
+    #6531e9 66%,
+    #301ab3 67%,
+    #301ab3 100%
+  );
+  background-size: 300% 300%;
+  animation: mr-gfill 8s ease-in-out infinite;
+}
+
+.mr-bar {
+  display: block;
+  width: 96px;
+  height: 5px;
+  margin: 18px auto 0;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--g1), var(--g2), var(--g1));
+  background-size: 200% 100%;
+  transform-origin: right;
+  animation: mr-fillbar 4.5s ease-in-out infinite;
+}
+
+/* ---------- Launch-price "boom" ---------- */
+
+.mr-boomwrap {
+  position: relative;
+  display: inline-block;
+}
+
+.mr-boomwrap::after {
+  content: '';
+  position: absolute;
+  inset: -8px -14px;
+  border: 2px solid var(--mr-lime);
+  border-radius: 99px;
+  opacity: 0;
+  animation: mr-ring 5.5s ease-out infinite;
+}
+
+.mr-boom {
+  display: inline-block;
+  font-weight: 800;
+  color: var(--mr-lime);
+  animation: mr-boom 5.5s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+}
+
+.mr-boom.is-big {
+  font-size: 1.18em;
+  line-height: 1.05;
+}
+
+/* Deeper green for readability on the light background. */
+.mr-boom.is-deep {
+  color: #3fb81f;
+}
+
+/* ---------- Hero ---------- */
+
+.mr-hero {
+  overflow: hidden;
+  padding: 40px 24px 230px;
+  background-color: var(--mr-ink);
+  color: #fff;
+}
+
+.mr-hero-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mr-hero-inner {
+  position: relative;
+  max-width: 760px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+.mr-pill {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 99px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mr-hero-title {
+  margin: 24px 0 18px;
+  font-size: clamp(38px, 6.4vw, 72px);
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.mr-hero-lead {
+  max-width: 620px;
+  margin: 0 auto 36px;
+  color: var(--mr-muted-dark);
+  font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.6;
+}
+
+.mr-ribbon {
+  animation: mr-ribbon 14s ease-in-out infinite alternate;
+}
+
+.mr-flow {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 420 980;
+  animation: mr-run 9s linear infinite;
+}
+
+.mr-flow.is-b {
+  animation-duration: 13s;
+  animation-delay: -4s;
+}
+
+.mr-flow.is-c {
+  animation-duration: 11s;
+  animation-delay: -7s;
+}
+
+.mr-rise {
+  opacity: 0;
+  animation: mr-rise 0.9s ease forwards;
+}
+
+.mr-d1 {
+  animation-delay: 0.15s;
+}
+
+.mr-d2 {
+  animation-delay: 0.3s;
+}
+
+.mr-d3 {
+  animation-delay: 0.45s;
+}
+
+/* ---------- Problem ---------- */
+
+.mr-problem-line {
+  margin: 0 0 14px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  line-height: 1.75;
+}
+
+.mr-problem-punch {
+  margin: 10px 0 34px;
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.mr-pop {
+  display: block;
+  transform-origin: center;
+  animation: mr-pop 2.6s ease-in-out infinite;
+}
+
+/* ---------- Intro ---------- */
+
+.mr-intro {
+  padding: 88px 24px 24px;
+  background: var(--mr-soft);
+}
+
+.mr-kicker {
+  margin-bottom: 14px;
+  color: var(--mr-blue);
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.mr-intro-title {
+  margin: 0 0 20px;
+  color: var(--mr-ink);
+  font-size: clamp(34px, 5.4vw, 60px);
+  font-weight: 300;
+  line-height: 1.12;
+}
+
+.mr-intro-lead {
+  margin: 0;
+  color: var(--mr-muted);
+  font-size: clamp(19px, 2.4vw, 25px);
+  line-height: 1.7;
+}
+
+/* ---------- How ---------- */
+
+.mr-how-sub {
+  margin: -6px 0 52px;
+  color: var(--mr-muted-dark);
+  font-size: 19px;
+  text-align: center;
+}
+
+.mr-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.mr-step {
+  flex: 1 1 280px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+}
+
+.mr-step-num {
+  background: linear-gradient(90deg, var(--mr-lime), var(--mr-periwinkle));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.mr-step-title {
+  margin: 6px 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.mr-step p {
+  margin: 0;
+  color: var(--mr-muted-dark);
+  line-height: 1.7;
+}
+
+.mr-after-steps {
+  margin-top: 44px;
+}
+
+/* ---------- Examples ---------- */
+
+.mr-examples-title {
+  margin-bottom: 44px;
+}
+
+.mr-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.mr-card {
+  display: flex;
+  flex: 1 1 300px;
+  flex-direction: column;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 26px;
+  background: #fff;
+  box-shadow: 0 12px 34px rgba(48, 26, 179, 0.14);
+}
+
+.mr-card-top {
+  padding: 18px;
+  background: var(--mr-soft);
+}
+
+.mr-card-gif {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.mr-card-gif img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.mr-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 22px 22px;
+}
+
+.mr-card-tag {
+  align-self: flex-start;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: var(--mr-lime);
+  color: var(--mr-ink);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.mr-card blockquote {
+  margin: 0;
+  color: var(--mr-ink);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.mr-card blockquote strong {
+  font-weight: 800;
+}
+
+.mr-card-name {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #e6e3f5;
+  color: var(--mr-blue);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* ---------- Pricing ---------- */
+
+.mr-pricing {
+  padding-block: 96px;
+  background: var(--mr-soft);
+}
+
+.mr-pricing-title {
+  margin: 0 0 56px;
+  font-size: clamp(28px, 4.4vw, 44px);
+  font-weight: 800;
+  line-height: 1.05;
+  text-align: center;
+}
+
+.mr-plans {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px;
+}
+
+.mr-plan {
+  position: relative;
+  display: flex;
+  flex: 1 1 380px;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(48, 26, 179, 0.08);
+}
+
+.mr-plan.is-dark {
+  background: var(--mr-ink);
+  color: #fff;
+  box-shadow: 0 22px 50px rgba(101, 49, 233, 0.35);
+}
+
+.mr-plan-badge {
+  position: absolute;
+  top: -14px;
+  right: 32px;
+  padding: 6px 16px;
+  border-radius: 99px;
+  background: var(--mr-lime);
+  color: var(--mr-ink);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.mr-plan-option {
+  color: #3fae1f;
+  font-weight: 800;
+}
+
+.mr-plan.is-dark .mr-plan-option {
+  color: var(--mr-lime);
+}
+
+.mr-plan-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.mr-plan-li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: var(--mr-muted);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.mr-plan.is-dark .mr-plan-li {
+  color: var(--mr-muted-dark);
+}
+
+.mr-plan-li svg {
+  flex: none;
+  margin-top: 5px;
+}
+
+.mr-plan-price {
+  margin-top: auto;
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+}
+
+.mr-plan-price span {
+  font-size: 24px;
+}
+
+.mr-plan-note {
+  margin: 10px 0;
+  font-size: 26px;
+  text-align: center;
+}
+
+/* ---------- About ---------- */
+
+.mr-about-p {
+  margin: 0 0 16px;
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.mr-about-p strong {
+  font-weight: 800;
+}
+
+/* ---------- Form ---------- */
+
+.mr-form-sec {
+  padding-bottom: 96px;
+}
+
+.mr-form-sec .mr-h2 {
+  margin-bottom: 12px;
+}
+
+.mr-form-lead {
+  margin: 0 0 34px;
+  color: var(--mr-muted-dark);
+  font-size: 18px;
+  text-align: center;
+}
+
+.mr-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: clamp(24px, 5vw, 44px);
+  border-radius: 32px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(101, 49, 233, 0.18);
+  color: var(--mr-ink);
+}
+
+.mr-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.mr-field {
+  display: flex;
+  flex: 1 1 260px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mr-field label {
+  color: var(--mr-ink);
+  font-weight: 500;
+}
+
+.mr-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid #e3e0f3;
+  border-radius: 14px;
+  background: #fff;
+  color: var(--mr-ink);
+  font: inherit;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.mr-input-ltr {
+  text-align: right;
+}
+
+.mr-input:focus {
+  outline: 3px solid rgba(110, 233, 67, 0.7);
+  outline-offset: 1px;
+}
+
+.mr-upload {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border: 1.5px dashed #9a8fe0;
+  border-radius: 14px;
+  background: #fbfaff;
+  cursor: pointer;
+}
+
+.mr-upload:focus-within {
+  outline: 3px solid rgba(110, 233, 67, 0.7);
+  outline-offset: 2px;
+}
+
+.mr-upload-btn {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(21, 4, 64, 0.14);
+  color: var(--mr-ink);
+  font-weight: 700;
+}
+
+.mr-upload-hint {
+  color: var(--mr-muted);
+  font-size: 15px;
+}
+
+.mr-btn:disabled {
+  cursor: progress;
+  opacity: 0.75;
+  transform: none;
+  box-shadow: none;
+}
+
+.mr-form-msg {
+  margin: -6px 0 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.mr-form-msg.is-ok {
+  background: #ecfbe6;
+  color: #1f6b0c;
+}
+
+.mr-form-msg.is-err {
+  background: #fdecec;
+  color: #9b1c1c;
+}
+
+/* Honeypot: invisible to people, tempting to bots. */
+.mr-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.mr-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* ---------- Slim footer (replaces the shared site footer on this page) ---------- */
+
+.mr-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 24px;
+  background: var(--mr-ink);
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+}
+
+.mr-footer-name {
+  font-weight: 800;
+}
+
+.mr-footer-tagline {
+  color: var(--mr-muted-dark);
+}
+
+.mr-footer-sep {
+  opacity: 0.6;
+}
+
+.mr-footer a {
+  color: #fff;
+}
+
+.mr-footer a:hover,
+.mr-footer a:focus-visible {
+  color: var(--mr-lime);
+}
+
+.mr-footer-mail {
+  text-transform: uppercase;
+}
+
+/* ---------- Floating decorations ---------- */
+
+.mr-floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mr-fl {
+  position: fixed;
+  z-index: 6;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.mr-fl svg {
+  display: block;
+  overflow: visible;
+}
+
+.mr-drift {
+  animation: mr-fdrift 10s ease-in-out infinite alternate;
+}
+
+.mr-drift.is-reverse {
+  animation-direction: alternate-reverse;
+}
+
+.mr-spin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mr-fspin 18s linear infinite;
+}
+
+.mr-trace {
+  stroke-dasharray: 60 540;
+  animation: mr-ftrace 6s linear infinite;
+}
+
+/* ---------- Scroll-driven reveals (where supported) ---------- */
+
+@supports (animation-timeline: view()) {
+  .mr-sr {
+    animation: mr-srin both cubic-bezier(0.22, 0.8, 0.3, 1);
+    animation-timeline: view();
+    animation-range: entry 0% entry 70%;
+  }
+
+  .mr-sr.mr-s2 {
+    animation-range: entry 8% entry 78%;
+  }
+
+  .mr-sr.mr-s3 {
+    animation-range: entry 16% entry 86%;
+  }
+
+  .mr-h2 {
+    animation: mr-hdin both ease-out;
+    animation-timeline: view();
+    animation-range: entry 5% entry 65%;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .mr-fl.mr-p1 {
+    animation: mr-par1 linear both;
+    animation-timeline: scroll(root);
+  }
+
+  .mr-fl.mr-p2 {
+    animation: mr-par2 linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 760px) {
+  .mr-sec {
+    padding: 64px 18px;
+  }
+
+  .mr-hero {
+    padding: 28px 18px 170px;
+  }
+
+  .mr-intro {
+    padding: 64px 18px 16px;
+  }
+
+  .mr-plan {
+    padding: 32px 24px;
+  }
+
+  .mr-btn {
+    padding: 15px 24px;
+    font-size: 16px;
+  }
+
+  .mr-fl {
+    opacity: 0.5;
+  }
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes mr-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes mr-run {
+  from {
+    stroke-dashoffset: 1400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes mr-ribbon {
+  from {
+    transform: translateY(-14px);
+  }
+  to {
+    transform: translateY(16px);
+  }
+}
+
+@keyframes mr-fillbar {
+  0% {
+    transform: scaleX(0);
+    background-position: 100% 0;
+  }
+  60% {
+    transform: scaleX(1);
+  }
+  88% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+    background-position: 0 0;
+  }
+}
+
+@keyframes mr-gfill {
+  0% {
+    background-position: 0% 0%;
+  }
+  28%,
+  53% {
+    background-position: 50% 50%;
+  }
+  81%,
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes mr-pop {
+  0%,
+  100% {
+    transform: scale(0.94);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes mr-boom {
+  0% {
+    opacity: 0;
+    transform: scale(5) rotate(-6deg);
+    filter: blur(14px);
+  }
+  8% {
+    opacity: 1;
+    transform: scale(0.82) rotate(2deg);
+    filter: blur(0);
+  }
+  11% {
+    transform: scale(1.22) rotate(-2deg);
+  }
+  14% {
+    transform: scale(1) translateX(-7px);
+  }
+  16% {
+    transform: translateX(7px);
+  }
+  18% {
+    transform: translateX(-4px);
+  }
+  20%,
+  84% {
+    transform: none;
+  }
+  92% {
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes mr-ring {
+  0%,
+  8% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  10% {
+    opacity: 1;
+  }
+  24% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mr-srin {
+  from {
+    opacity: 0;
+    transform: translateY(46px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes mr-hdin {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(-10px -10px -10px -10px);
+  }
+}
+
+@keyframes mr-fdrift {
+  0% {
+    transform: translate(0, 0) rotate(0);
+  }
+  50% {
+    transform: translate(18px, -26px) rotate(12deg);
+  }
+  100% {
+    transform: translate(-14px, 22px) rotate(-10deg);
+  }
+}
+
+@keyframes mr-fspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mr-ftrace {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -600;
+  }
+}
+
+@keyframes mr-par1 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-260px);
+  }
+}
+
+@keyframes mr-par2 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(340px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mr *,
+  .mr *::before,
+  .mr *::after {
+    animation: none !important;
+  }
+
+  .mr-rise,
+  .mr-sr {
+    opacity: 1;
+  }
+
+  .mr-btn,
+  .mr-btn:hover {
+    transform: none;
+    transition: none;
+  }
+}

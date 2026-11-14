@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { routes } from '../../data/site'
 import { useReducedMotion } from '../../motion/useReducedMotion'
+
+/** Pages that are finished and should not show the "under construction" sign. */
+const HIDDEN_ON: readonly string[] = [routes.marathon]
 
 const PLAY_MS = 5600
 const STATIC_MS = 2200
@@ -43,5 +47,6 @@ function ConstructionNoticePlay() {
 
 export function ConstructionNotice() {
   const { pathname } = useLocation()
+  if (HIDDEN_ON.includes(pathname)) return null
   return <ConstructionNoticePlay key={pathname} />
 }

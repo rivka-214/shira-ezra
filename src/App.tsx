@@ -7,6 +7,7 @@ import { PageTransition } from './components/motion/PageTransition'
 import { BusinessPage } from './pages/BusinessPage'
 import { EventsPage } from './pages/EventsPage'
 import { HomePage } from './pages/HomePage'
+import { MarathonPage } from './pages/MarathonPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { VideoPage } from './pages/VideoPage'
 
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/video" element={<VideoPage />} />
           <Route path="/business" element={<BusinessPage />} />
           <Route path="/events" element={<EventsPage />} />
+          <Route path="/marathon" element={<MarathonPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
         </Routes>
       </PageTransition>

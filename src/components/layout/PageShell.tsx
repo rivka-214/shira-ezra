@@ -8,9 +8,11 @@ type Props = {
   home?: boolean
   /** Full-page brand mesh gradient (like the video hero). */
   mesh?: boolean
+  /** Shared footer (client logos + contact form). Pages with their own closing can turn it off. */
+  footer?: boolean
 }
 
-export function PageShell({ children, home = false, mesh = false }: Props) {
+export function PageShell({ children, home = false, mesh = false, footer = true }: Props) {
   const location = useLocation()
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export function PageShell({ children, home = false, mesh = false }: Props) {
     <div className={rootClass}>
       <SiteHeader />
       <main>{children}</main>
-      <SiteFooter />
+      {footer ? <SiteFooter /> : null}
     </div>
   )
 }
