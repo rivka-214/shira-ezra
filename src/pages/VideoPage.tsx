@@ -38,8 +38,8 @@ export function VideoPage() {
   const findCards = c.findHere.categories.map(({ title, text }) => ({ title, text }))
 
   return (
-    <PageShell>
-      <LinesHero contentClassName="video-hero" tone="mesh" label="עולם של וידאו">
+    <PageShell brand>
+      <LinesHero contentClassName="video-hero" brand label="עולם של וידאו">
         <div className="video-hero-inner">
           <h1 className="video-hero-title">{c.hero.title}</h1>
           <div className="video-hero-copy draw-sequence">

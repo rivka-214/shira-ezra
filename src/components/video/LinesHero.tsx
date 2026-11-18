@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react'
 import { useReducedMotion } from '../../motion/useReducedMotion'
+import { HeroArt } from '../brand/BrandDecor'
 import { SparkTrail } from './SparkTrail'
 
 type Props = {
@@ -15,6 +16,10 @@ type Props = {
   cover?: boolean
   /** Keep the line artwork (and mouse warp) even on mesh tone. */
   showLines?: boolean
+  /** Marathon-style ink hero with the ribbon artwork behind the copy. */
+  brand?: boolean
+  /** Drop the white backing so the section background (stripes) shows behind the lines. */
+  clear?: boolean
 }
 
 const VIEW_W = 1600
@@ -45,11 +50,14 @@ export function LinesHero({
   tone = 'light',
   cover = false,
   showLines = false,
+  brand = false,
+  clear = false,
 }: Props) {
   const reduce = useReducedMotion()
   const wrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const mesh = tone === 'mesh'
+  const knock = mesh || clear
   /** Line artwork only when explicitly requested — mesh heroes stay gradient-only. */
   const linesOn = Boolean(showLines)
 
@@ -79,13 +87,13 @@ export function LinesHero({
     const rebuildSource = () => {
       const { drawW, drawH } = layout
       sctx.clearRect(0, 0, drawW, drawH)
-      if (!mesh) {
+      if (!knock) {
         sctx.fillStyle = '#fff'
         sctx.fillRect(0, 0, drawW, drawH)
       }
       if (!ready) return
       sctx.drawImage(img, 0, 0, drawW, drawH)
-      if (mesh) knockOutWhite(sctx, drawW, drawH)
+      if (knock) knockOutWhite(sctx, drawW, drawH)
     }
 
     const fit = () => {
@@ -111,7 +119,7 @@ export function LinesHero({
 
     const paintStatic = () => {
       ctx.clearRect(0, 0, layout.w, layout.h)
-      if (!mesh) {
+      if (!knock) {
         ctx.fillStyle = '#fff'
         ctx.fillRect(0, 0, layout.w, layout.h)
       }
@@ -229,11 +237,13 @@ export function LinesHero({
       window.removeEventListener('resize', onResize)
       ro?.disconnect()
     }
-  }, [reduce, mesh, cover, linesOn])
+  }, [reduce, knock, cover, linesOn])
 
   const rootClass = [
     'lines-hero',
     mesh ? 'lines-hero-mesh' : '',
+    brand ? 'lines-hero-brand' : '',
+    clear ? 'lines-hero-clear' : '',
     linesOn ? 'lines-hero-show-lines' : 'lines-hero-no-lines',
     interactive ? 'is-interactive' : '',
     className,
@@ -247,7 +257,8 @@ export function LinesHero({
       {linesOn ? (
         <canvas className="lines-hero-canvas" ref={canvasRef} aria-hidden="true" />
       ) : null}
-      {mesh ? <SparkTrail /> : null}
+      {brand ? <HeroArt /> : null}
+      {mesh || brand ? <SparkTrail /> : null}
       <div className={bodyClass}>{children}</div>
     </section>
   )

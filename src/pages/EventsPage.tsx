@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { HeroArt } from '../components/brand/BrandDecor'
 import { BlockedStamp, eventsBlockedMail } from '../components/events/BlockedStamp'
 import { ConfettiBurst } from '../components/events/ConfettiBurst'
 import { SpinBookDate } from '../components/events/SpinBookDate'
@@ -37,9 +38,10 @@ export function EventsPage() {
   }, [])
 
   return (
-    <PageShell>
+    <PageShell brand>
       <ConfettiBurst delayMs={1000} durationMs={6000} />
       <section className="page-hero-shell events-hero-shell">
+        <HeroArt />
         <div className="wrap events-section">
           <div
             className={

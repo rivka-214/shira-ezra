@@ -1,5 +1,6 @@
 import { useEffect, type ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Floaters } from '../brand/BrandDecor'
 import { SiteFooter } from './SiteFooter'
 import { SiteHeader } from './SiteHeader'
 
@@ -10,9 +11,11 @@ type Props = {
   mesh?: boolean
   /** Shared footer (client logos + contact form). Pages with their own closing can turn it off. */
   footer?: boolean
+  /** Marathon look: striped light sections and drifting shapes. */
+  brand?: boolean
 }
 
-export function PageShell({ children, home = false, mesh = false, footer = true }: Props) {
+export function PageShell({ children, home = false, mesh = false, footer = true, brand = false }: Props) {
   const location = useLocation()
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export function PageShell({ children, home = false, mesh = false, footer = true 
     return () => window.clearTimeout(timer)
   }, [location.pathname, location.hash])
 
-  const rootClass = [home ? 'app home-app' : 'app', mesh ? 'app-mesh' : '']
+  const rootClass = [home ? 'app home-app' : 'app', mesh ? 'app-mesh' : '', brand ? 'app-brand' : '']
     .filter(Boolean)
     .join(' ')
 
@@ -36,6 +39,7 @@ export function PageShell({ children, home = false, mesh = false, footer = true 
       <SiteHeader />
       <main>{children}</main>
       {footer ? <SiteFooter /> : null}
+      {brand ? <Floaters /> : null}
     </div>
   )
 }

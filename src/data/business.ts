@@ -50,6 +50,9 @@ export const businessContent = {
   },
   worksTitle: '',
   works: [
+    { url: 'https://youtube.com/shorts/wYn0FuI7ing', title: 'סרטון מותג' },
+    { url: 'https://youtu.be/-JfooaoER7o', title: 'טיזר קורס המטבח הבריא בקרמן' },
+    { url: 'https://youtu.be/7ZEiMRRadsQ', title: 'טיזר קורס לפני לידה בקרמן' },
     { url: 'https://www.youtube.com/watch?v=WhVA_L5Qkzg', title: 'דסי לוי סרטון תדמית' },
     { url: 'https://www.youtube.com/watch?v=wijZidL1BY8', title: 'סרטון תדמית יעל בן עמרם' },
     { url: 'https://www.youtube.com/watch?v=DbUjXbvmoqE', title: 'סרטון סטטוס רבקי אביטל' },
@@ -97,7 +100,7 @@ export const businessContent = {
     ],
   },
   cta: {
-    title: 'רוצים להתחיל?',
+    title: 'בואו נתחיל',
     button: 'לחצו כאן',
   },
 }

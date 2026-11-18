@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { BrowserRouter, MemoryRouter, Route, Routes, useLocation } from 'react-router-dom'
+
+/** Opened as a saved .html file (file://) there is no server path, so keep routes in memory. */
+const Router = typeof window !== 'undefined' && window.location.protocol === 'file:' ? MemoryRouter : BrowserRouter
 import { AccessibilityWidget } from './components/layout/AccessibilityWidget'
 import { ConstructionNotice } from './components/layout/ConstructionNotice'
 import { CookieBanner } from './components/layout/CookieBanner'
@@ -29,7 +32,7 @@ function RouteWipe() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <RouteWipe />
       <ConstructionNotice />
       <CookieBanner />
@@ -44,6 +47,6 @@ export default function App() {
           <Route path="/privacy" element={<PrivacyPage />} />
         </Routes>
       </PageTransition>
-    </BrowserRouter>
+    </Router>
   )
 }

@@ -72,13 +72,13 @@ export function BusinessPage() {
   }
 
   return (
-    <PageShell>
+    <PageShell brand>
       <section className="page-hero-shell biz-hero-shell">
         <LinesHero
           className="biz-hero-lines"
           contentClassName="biz-hero-mesh-content"
           label={c.hero.title}
-          tone="mesh"
+          brand
           cover
         >
           <div className="biz-hero-inner draw-sequence">

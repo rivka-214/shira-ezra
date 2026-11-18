@@ -1,0 +1,252 @@
+/* Marathon-style look shared by the other pages (opt in with <PageShell brand>). */
+
+/* ---------- Hero: deep ink + ribbon artwork, spark trail kept on top ---------- */
+
+.lines-hero.lines-hero-brand {
+  background: #150440;
+  color: #fff;
+}
+
+.lines-hero-brand .mr-hero-art {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.lines-hero-brand .lines-hero-content {
+  z-index: 2;
+  padding-bottom: clamp(140px, 18vw, 230px);
+}
+
+.lines-hero-brand .video-hero-title {
+  font-size: clamp(38px, 6.4vw, 72px);
+  font-weight: 700;
+  line-height: 1.08;
+  margin-bottom: 18px;
+  background: linear-gradient(90deg, #6ee943, #6762eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lines-hero-brand .video-hero .sub,
+.lines-hero-brand .draw-sequence .draw-behind.sub {
+  color: #fff;
+}
+
+.lines-hero-brand .video-hero .lead,
+.lines-hero-brand .draw-sequence .lead {
+  color: #d4d1e8;
+}
+
+.lines-hero-brand .video-hero .draw-sequence .video-hero-emphasis-hook,
+.lines-hero-brand .video-hero .draw-sequence .video-hero-emphasis-hook .draw-behind-text {
+  color: #6ee943;
+  -webkit-text-fill-color: #6ee943;
+}
+
+.lines-hero-brand .video-hero .draw-sequence .video-hero-emphasis-tail,
+.lines-hero-brand .video-hero .draw-sequence .video-hero-emphasis-tail .draw-behind-text {
+  color: #c8ffb8;
+  -webkit-text-fill-color: #c8ffb8;
+}
+
+/* ---------- Light sections: soft lilac with fine diagonal stripes ---------- */
+
+.app-brand,
+.app-brand main {
+  background-color: #f4f3ff;
+}
+
+.app-brand .blk:not(.reviews-close):not(.biz-how),
+.app-brand .cta-band.cta-on-white {
+  background-color: #f4f3ff;
+  background-image: repeating-linear-gradient(115deg, rgba(27, 22, 48, 0.04) 0 1px, transparent 1px 14px);
+}
+
+/* Drifting shapes sit above sections but never take clicks. */
+.app-brand .mr-floaters {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-brand .mr-floaters {
+    display: none;
+  }
+}
+
+/* ---------- Business + events heroes ---------- */
+
+.app-brand .biz-hero-shell,
+.app-brand .events-hero-shell {
+  position: relative;
+  overflow: hidden;
+  background: #150440;
+}
+
+.app-brand .events-hero-shell::before {
+  display: none;
+}
+
+.app-brand .events-hero-shell > .mr-hero-art {
+  z-index: 0;
+  pointer-events: none;
+}
+
+.app-brand .biz-hero-lines .biz-hero-title,
+.app-brand .events-hero-panel h1,
+.app-brand .events-hero-panel .motion-reveal-heading {
+  font-size: clamp(38px, 6.4vw, 72px);
+  font-weight: 700;
+  line-height: 1.08;
+  background: linear-gradient(90deg, #6ee943, #6762eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-brand .biz-hero-lines .biz-hero-title .draw-behind-text,
+.app-brand .events-hero-panel .motion-reveal-heading-inner {
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.app-brand .biz-hero-lines .biz-hero-line,
+.app-brand .events-hero-panel .events-hero-lead {
+  color: #d4d1e8;
+}
+
+.app-brand .biz-hero-inner,
+.app-brand .events-hero-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Fine stripes everywhere below the hero ---------- */
+
+.app-brand .page-hero-shell:not(.biz-hero-shell):not(.events-hero-shell),
+.app-brand .site-footer,
+.app-brand .footer-contact {
+  background-color: #f4f3ff;
+  background-image: repeating-linear-gradient(115deg, rgba(27, 22, 48, 0.04) 0 1px, transparent 1px 14px);
+}
+
+/* ---------- Section headings fill with the marathon gradient ---------- */
+
+.app-brand .blk:not(.reviews-close):not(.biz-how) h2,
+.app-brand .cta-band h2,
+.app-brand .lines-hero-section h2,
+.app-brand .site-footer .contact-form h2,
+.app-brand .site-footer .cinfo h2 {
+  font-weight: 800;
+  color: #301ab3;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(
+    135deg,
+    #301ab3 0%,
+    #301ab3 33%,
+    #6ee943 34%,
+    #6531e9 66%,
+    #301ab3 67%,
+    #301ab3 100%
+  );
+  background-size: 300% 300%;
+  animation: mr-gfill 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-brand .blk:not(.reviews-close):not(.biz-how) h2,
+  .app-brand .cta-band h2,
+  .app-brand .lines-hero-section h2 {
+    animation: none;
+  }
+}
+
+/* Events title is long — keep it inside the screen. */
+.app-brand .events-hero-panel h1,
+.app-brand .events-hero-panel .motion-reveal-heading {
+  max-width: 100%;
+  font-size: clamp(30px, 4.6vw, 58px);
+  white-space: normal;
+}
+
+/* Hero titles fill with a moving gradient, tuned for the dark hero. */
+.lines-hero-brand .video-hero-title,
+.app-brand .biz-hero-lines .biz-hero-title,
+.app-brand .events-hero-panel h1,
+.app-brand .events-hero-panel .motion-reveal-heading {
+  background-image: linear-gradient(
+    135deg,
+    #6762eb 0%,
+    #6762eb 33%,
+    #6ee943 34%,
+    #ffffff 66%,
+    #6762eb 67%,
+    #6762eb 100%
+  );
+  background-size: 300% 300%;
+  animation: mr-gfill 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lines-hero-brand .video-hero-title,
+  .app-brand .biz-hero-lines .biz-hero-title,
+  .app-brand .events-hero-panel h1 {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}
+
+/* Keep each title's entrance animation alongside the gradient fill. */
+.lines-hero-brand .video-hero-title {
+  animation:
+    video-rise 0.78s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both,
+    mr-gfill 8s ease-in-out infinite;
+}
+
+.app-brand .biz-hero-lines .biz-hero-title.hero-line {
+  animation:
+    video-rise 0.72s cubic-bezier(0.22, 1, 0.36, 1) calc(0.62s + (var(--hero-i) * 0.2s)) both,
+    mr-gfill 8s ease-in-out infinite;
+}
+
+/* Fine diagonal stripes on the dark opening screens, as on the marathon hero. */
+.lines-hero.lines-hero-brand,
+.app-brand .biz-hero-shell,
+.app-brand .events-hero-shell {
+  background-color: #150440;
+  background-image: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 14px);
+}
+
+.app-brand .biz-hero-shell .lines-hero.lines-hero-brand {
+  background: transparent;
+}
+
+/* Opening screens sized like the marathon hero: big title (wraps to two lines when long), 18–22px text. */
+.lines-hero-brand .video-hero-title,
+.app-brand .biz-hero-lines .biz-hero-title,
+.app-brand .events-hero-panel h1,
+.app-brand .events-hero-panel .motion-reveal-heading {
+  max-width: 760px;
+  margin-inline: auto;
+  font-size: clamp(38px, 6.4vw, 72px);
+  font-weight: 700;
+  line-height: 1.08;
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.lines-hero-brand .video-hero .sub,
+.lines-hero-brand .video-hero .lead,
+.lines-hero-brand .video-hero-emphasis-tail,
+.app-brand .biz-hero-lines .biz-hero-line,
+.app-brand .events-hero-panel .events-hero-sub,
+.app-brand .events-hero-panel .events-hero-lead {
+  font-size: clamp(18px, 2.4vw, 22px);
+  line-height: 1.6;
+}
